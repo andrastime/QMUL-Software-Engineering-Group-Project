@@ -1,0 +1,48 @@
+.studentfeedback-container {
+    width: 80vw; /* change this when rest of html is added */
+    margin: 25px 15px;
+}
+
+.studentfeedback-container .selectors {
+    display: flex;
+    padding: 22px 16px;
+    align-items: center;
+    gap: 40px;
+}
+
+.studentfeedback-container .selectors .select-module {
+    display: flex;
+    align-items: center;
+}
+
+.select-box {
+    background-color: white;
+    width: 259px;
+    height: 40px;
+    border-radius: 5px;
+    border: 2px solid var(--QMlightgrey);
+}
+
+#select-module-text {
+    margin: 12px;
+}
+
+.studentfeedback-container .selectors .search-student {
+    background-color: white;
+    width: 320px;
+    height: 40px;
+    border-radius: 5px;
+    border: 2px solid var(--QMlightgrey);
+}
+
+.studentfeedback-container .feedback-header-container {
+    display: flex;
+    padding: 22px 16px;
+    color: var(--QMblue);
+    font-weight: 700;
+}
+
+.started-by-text {
+    margin-left: auto;
+    margin-right: 250px;
+}
