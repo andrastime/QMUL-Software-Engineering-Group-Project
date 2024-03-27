@@ -1,6 +1,7 @@
 .studentfeedback-container {
     width: 80vw; /* change this when rest of html is added */
     margin: 25px 15px;
+    margin: 15px auto; /*temporary centering*/
 }
 
 .studentfeedback-container .selectors {
@@ -38,11 +39,28 @@
 .studentfeedback-container .feedback-header-container {
     display: flex;
     padding: 22px 16px;
+    border-bottom: 3px solid var(--QMlightgrey);
     color: var(--QMblue);
     font-weight: 700;
 }
 
 .started-by-text {
     margin-left: auto;
-    margin-right: 250px;
+    width: 25%;
+}
+
+.feedback-container {
+    display: flex;
+    flex-direction: column;
+}
+.feedback-item {
+    display: flex;
+    justify-content: flex-start;
+    padding: 14px 16px;
+    background-color: white;
+    align-items: center;
+}
+
+.feedback-item.even {
+    background-color: rgba(217, 217, 217, 0.50);
 }

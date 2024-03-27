@@ -8,6 +8,7 @@ export const System = ({}) => {
       <div className="navbar"></div>
       <header className="dashboard-header"></header>
       <main className="dashboard-main"></main>
+      <StudentFeedback /> {/* temporarily put here to display it */}
     </div>
   );
 };
