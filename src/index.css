@@ -1,18 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap");
 
 body {
   margin: 0;
-  font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100%;
 }
 
 :root {
-  --QMblue: #0D3273;
-  --QMlightgrey: #D9D9D9;
+  --QMblue: #0d3273;
+  --QMlightgrey: #d9d9d9;
 }
 
 .system {
@@ -23,4 +23,57 @@ body {
 .navbar {
   height: 64px;
   background-color: var(--QMblue);
+}
+
+.login-container {
+  background-color: #0d3273;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Use vh unit to fill the full viewport height */
+  text-align: center;
+}
+
+.logo {
+  width: 140px; /* Or the size of your logo */
+  height: 140px; /* Or the size of your logo */
+  background-color: #d9d9d9;
+  margin-bottom: 10px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+h1 {
+  margin-bottom: 20px;
+  color: white;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%; /* Or max-width for larger screens */
+  max-width: 300px; /* Maximum width of the form */
+}
+
+.login-input {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.login-button {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  background-color: #0056b3;
 }
