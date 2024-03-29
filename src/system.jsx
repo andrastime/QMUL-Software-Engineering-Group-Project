@@ -1,13 +1,48 @@
 import "./index.css";
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from "@supabase/supabase-js";
 import { StudentFeedback } from "./components";
+import { useState, useEffect } from "react";
 
-const supabaseUrl = 'https://dswpmnhkvgpxqapgddfe.supabase.co';
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRzd3BtbmhrdmdweHFhcGdkZGZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTA0MjYzNTgsImV4cCI6MjAyNjAwMjM1OH0.IBBT3bh87_nDHckwlR434DuHI1UvcoVypfcJH90s4eA';
+const supabaseUrl = "https://dswpmnhkvgpxqapgddfe.supabase.co";
+const supabaseAnonKey =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRzd3BtbmhrdmdweHFhcGdkZGZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTA0MjYzNTgsImV4cCI6MjAyNjAwMjM1OH0.IBBT3bh87_nDHckwlR434DuHI1UvcoVypfcJH90s4eA";
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export const System = () => {
-  // Function to handle the logout process
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    supabase.auth.onAuthStateChange((_event, session) => {
+      updateUserName(session);
+    });
+  }, []);
+
+  const updateUserName = (session) => {
+    if (session && session.user) {
+      const userEmail = session.user.email;
+      let name;
+
+      switch (userEmail) {
+        case "qmstudent@qmul.ac.uk":
+          name = "Student";
+          break;
+        case "moduleorganiser@qmul.ac.uk":
+          name = "Module Staff";
+          break;
+        case "admin@qmul.ac.uk":
+          name = "Admin";
+          break;
+        default:
+          name = "User";
+          break;
+      }
+
+      setUserName(name);
+    } else {
+      setUserName("User");
+    }
+  };
+
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) console.error("Logout error", error.message);
@@ -16,12 +51,43 @@ export const System = () => {
   return (
     <div className="system">
       <div className="navbar">
-        <button onClick={handleLogout} className="logout-button">Logout</button> {/* Logout Button */}
-        <img src="/notification.svg" alt="Notification" />
+        <img src="/menu.svg" alt="Menu" className="menu" />
+        <img
+          src="/notification.svg"
+          alt="Notification"
+          className="notification"
+        />
+        <img
+          src="/logout.svg"
+          onClick={handleLogout}
+          className="logout-button"
+          alt="logout btn"
+        />
       </div>
-      <header className="dashboard-header"></header>
-      <main className="dashboard-main"></main>
-      <StudentFeedback /> {/* temporarily put here to display it */}
+
+      <header className="dashboard-header">
+        <h1 className="user-dashboard">{userName} Dashboard</h1>
+        <form className="search-form">
+          <label htmlFor="search-option" className="search-label">
+            Search option
+          </label>
+          <select id="search-option" className="search-select">
+            <option value="service">search via service</option>
+            <option value="service">option1</option>
+            <option value="service">option2</option>
+            <option value="service">option3</option>
+          </select>
+          <button type="submit" className="search-button">
+            <img src="/search-icon.svg" alt="Search" />
+          </button>
+          <input type="text" className="search-input"/>
+        </form>
+      </header>
+
+      <main className="dashboard-main">
+        {/*depending on who is logged in and which tab is used - mapping*/}
+        <StudentFeedback /> {/*placeholder*/}
+      </main>
     </div>
   );
 };

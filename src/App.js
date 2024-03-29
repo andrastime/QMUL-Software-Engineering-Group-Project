@@ -40,7 +40,7 @@ export default function App() {
     return (
       <div className="login-container">
         <img className="logo" src="/qmul-logo.svg" alt="QMUL logo" />
-        <h1>QMUL Issues and Feedback System</h1>
+        <h1 className="app-name">QMUL Issues and Feedback System</h1>
         <form onSubmit={handleLogin} className="login-form">
           <input
             type="email"
