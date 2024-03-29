@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap");
 
+/*main page*/
 body {
   margin: 0;
   font-family: "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -18,26 +19,114 @@ body {
 .system {
   width: 100vw;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .navbar {
   height: 64px;
   background-color: var(--QMblue);
+  display: flex;
+  flex-direction: row;
 }
 
+.notification {
+  width: 30px;
+  height: 30px;
+  margin-top: 1.15%;
+}
+
+.logout-button {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin-top: 0.75%;
+  margin-left: 1%;
+}
+
+.menu {
+  width: 30px;
+  height: 40px;
+  margin-top: 0.75%;
+  margin-right: 90%;
+  margin-left: 1%;
+}
+
+.user-dashboard {
+  margin-top: 2%;
+  margin-left: 7%;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  color: #0d3273;
+  font-weight: bolder;
+  font-size: 30px;
+}
+
+/*search*/
+.search-form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 5px;
+  margin: 0.5rem;
+  margin-top: 1rem;
+}
+
+.search-label {
+  margin-left: 5.5rem;
+  margin-right: 0.5rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-size: 15px;
+  margin-right: 1%;
+}
+
+.search-select {
+  padding: 0.45rem;
+  padding-right: 5rem;
+  margin-right: 0.5rem;
+  border: 2px solid bold #ccc;
+  border-radius: 4px;
+}
+
+.search-input {
+  padding: 0.5rem;
+  padding-right: 15rem;
+  border: 1px solid #ccc;
+  border-radius: 0px 5px 5px 0px;
+  margin-right: 0.5rem;
+}
+
+.search-button {
+  margin-left: 2.5rem;
+  padding: 0.35rem;
+  background-color: #0d3273;
+  color: white;
+  border: none;
+  border-radius: 5px 0px 0px 5px;
+  cursor: pointer;
+}
+
+.search-button img {
+  width: 20px;
+  height: 20px;
+}
+
+/*login*/
 .login-container {
   background-color: #0d3273;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh; /* Use vh unit to fill the full viewport height */
+  height: 100vh;
   text-align: center;
 }
 
 .logo {
-  width: 140px; /* Or the size of your logo */
-  height: 140px; /* Or the size of your logo */
+  width: 140px;
+  height: 140px;
   background-color: #d9d9d9;
   margin-bottom: 10px;
   border-radius: 50%;
@@ -46,7 +135,7 @@ body {
   justify-content: center;
 }
 
-h1 {
+.app-name {
   margin-bottom: 20px;
   color: white;
 }
@@ -54,8 +143,8 @@ h1 {
 .login-form {
   display: flex;
   flex-direction: column;
-  width: 100%; /* Or max-width for larger screens */
-  max-width: 300px; /* Maximum width of the form */
+  width: 100%;
+  max-width: 300px;
 }
 
 .login-input {
