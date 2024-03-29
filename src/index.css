@@ -45,6 +45,10 @@ body {
   margin-left: 1%;
 }
 
+logout-button:hover {
+  cursor: pointer;
+}
+
 .menu {
   width: 30px;
   height: 40px;
