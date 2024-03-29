@@ -1,6 +1,7 @@
 import "./index.css";
 import { createClient } from "@supabase/supabase-js";
 import { StudentFeedback } from "./components";
+import { SubmitFeedback } from "./components";
 import { useState, useEffect } from "react";
 
 const supabaseUrl = "https://dswpmnhkvgpxqapgddfe.supabase.co";
@@ -26,7 +27,7 @@ export const System = () => {
         case "qmstudent@qmul.ac.uk":
           name = "Student";
           break;
-        case "moduleorganiser@qmul.ac.uk":
+        case "modstaffmember@qmul.ac.uk":
           name = "Module Staff";
           break;
         case "admin@qmul.ac.uk":
@@ -86,7 +87,8 @@ export const System = () => {
 
       <main className="dashboard-main">
         {/*depending on who is logged in and which tab is used - mapping*/}
-        <StudentFeedback /> {/*placeholder*/}
+        {userName === "Student" && <StudentFeedback />}
+        {userName === "Module Staff" && <SubmitFeedback supabase={supabase} />}
       </main>
     </div>
   );
