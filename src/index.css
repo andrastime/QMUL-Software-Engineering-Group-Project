@@ -45,7 +45,7 @@ body {
   margin-left: 1%;
 }
 
-logout-button:hover {
+.logout-button:hover {
   cursor: pointer;
 }
 
