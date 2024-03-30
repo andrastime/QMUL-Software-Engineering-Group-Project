@@ -1,28 +1,20 @@
-import React, { useState } from "react";
+import React, {useState, useEffect} from "react";
 import "./studentfeedback.css";
 
-const StudentFeedback = () => {
-  const feedbackData2 = [
-    {
-      title: "Feedback 1 title",
-      description:
-        "This is the first feedback. Placeholder description example here.",
-      profilePicture: "profile1.jpg",
-      name: "John Doe",
-      datePosted: "2022-01-01",
-    },
-    {
-      title: "Feedback 2 title",
-      description:
-        "This is the second feedback. Placeholder description example here.",
-      profilePicture: "profile2.jpg",
-      name: "Jane Smith",
-      datePosted: "2022-01-02",
-    },
-    // temporary data
-  ];
+const StudentFeedback = ({ supabase }) => {
+  const [feedbackData, setFeedbackData] = useState([]);
 
-  const feedbackData = [...feedbackData2, ...feedbackData2, ...feedbackData2];
+  useEffect(() => {
+    const fetchFeedbackData = async () => {
+      const { data, error } = await supabase.from("module_feedback").select("*");
+      if (error) {
+        console.error("Error fetching feedback data:", error);
+      } else {
+        setFeedbackData(data);
+      }
+    };
+    fetchFeedbackData();
+  }, []);
 
   return (
     <div className="studentfeedback-container">
@@ -35,11 +27,7 @@ const StudentFeedback = () => {
             <option value="option3">ECS506U</option>
           </select>
         </div>
-        <input
-          className="search-student"
-          type="text"
-          placeholder="search student by ID / name"
-        />
+        <input className="search-student" type="text" placeholder="search student by ID / name" />
       </div>
       <div className="feedback-header-container">
         <h3>Feedback</h3>
@@ -47,17 +35,14 @@ const StudentFeedback = () => {
       </div>
       <div className="feedback-container">
         {feedbackData.map((feedback, index) => (
-          <div
-            className={`feedback-item ${index % 2 === 0 ? "even" : ""}`}
-            key={index}
-          >
-            <h2 style={{ width: "15%" }}>{feedback.title}</h2>
-            <p style={{ width: "60%" }}>{feedback.description}</p>
+          <div className={`feedback-item ${index % 2 === 0 ? "" : "even"}`} key={feedback.id}>
+            <h2 style={{ width: "15%", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", padding: "0 32px 0 0" }}>{feedback.id}</h2>
+            <p style={{ width: "60%", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", padding: "0 64px 0 0" }}>{feedback.comment}</p>
             <div style={{ width: "25%", display: "flex" }}>
-              <img src={feedback.profilePicture} alt="profile" />
+              {/*<img src={feedback.profilePicture} alt="Profile" />*/}
               <div>
-                <p>{feedback.name}</p>
-                <p>{feedback.datePosted}</p>
+                {/*<p>{feedback.name}</p>*/}
+                <p>{feedback.created_at}</p>
               </div>
             </div>
           </div>
