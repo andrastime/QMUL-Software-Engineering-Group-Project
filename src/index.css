@@ -67,6 +67,14 @@ body {
   font-size: 30px;
 }
 
+.ticket-btn {
+  background-color: var(--QMblue);
+  color: white;
+  border-radius: 5px;
+  padding: 0.5%;
+  margin-left: 20rem;
+}
+
 /*search*/
 .search-form {
   display: flex;

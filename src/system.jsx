@@ -1,8 +1,9 @@
 import "./index.css";
 import { createClient } from "@supabase/supabase-js";
 import { StudentFeedback } from "./components";
-import { SubmitFeedback } from "./components";
+import { CreateTicket } from "./components";
 import { useState, useEffect } from "react";
+import ViewEC from "./components/student/viewEC";
 
 const supabaseUrl = "https://dswpmnhkvgpxqapgddfe.supabase.co";
 const supabaseAnonKey =
@@ -11,6 +12,12 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export const System = () => {
   const [userName, setUserName] = useState("");
+  const [showCreateTicket, setShowCreateTicket] = useState(false);
+
+  const handleCreateTicket = (event) => {
+    event.preventDefault();
+    setShowCreateTicket((prev) => !prev);
+  };
 
   useEffect(() => {
     supabase.auth.onAuthStateChange((_event, session) => {
@@ -81,14 +88,22 @@ export const System = () => {
           <button type="submit" className="search-button">
             <img src="/search-icon.svg" alt="Search" />
           </button>
-          <input type="text" className="search-input"/>
+          <input type="text" className="search-input" />
+          <button className="ticket-btn" onClick={handleCreateTicket}>
+            {showCreateTicket ? "Back" : "Create Ticket"}
+          </button>
         </form>
       </header>
 
       <main className="dashboard-main">
-        {/*depending on who is logged in and which tab is used - mapping*/}
-        {userName === "Student" && <StudentFeedback />}
-        {userName === "Module Staff" && <SubmitFeedback supabase={supabase} />}
+        {showCreateTicket ? (
+          <CreateTicket supabase={supabase} />
+        ) : (
+          <>
+            {userName === "Student" && <ViewEC />}
+            {userName === "Module Staff" && <StudentFeedback />}
+          </>
+        )}
       </main>
     </div>
   );
