@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "./studentfeedback.css";
+import "./viewEC.css";
 
-const StudentFeedback = () => {
+const ViewEC = () => {
   const feedbackData2 = [
     {
       title: "Feedback 1 title",
@@ -67,4 +67,4 @@ const StudentFeedback = () => {
   );
 };
 
-export default StudentFeedback;
+export default ViewEC;
