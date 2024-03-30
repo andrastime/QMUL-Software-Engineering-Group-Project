@@ -3,6 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import { StudentFeedback } from "./components";
 import { CreateTicket } from "./components";
 import { useState, useEffect } from "react";
+import { ReplyFeedback } from "./components";
 import ViewEC from "./components/student/viewEC";
 
 const supabaseUrl = "https://dswpmnhkvgpxqapgddfe.supabase.co";
@@ -39,6 +40,9 @@ export const System = () => {
           break;
         case "admin@qmul.ac.uk":
           name = "Admin";
+          break;
+        case "tempstaff_for_reply@qmul.ac.uk":
+          name = "Reply Staff";
           break;
         default:
           name = "User";
@@ -102,6 +106,7 @@ export const System = () => {
           <>
             {userName === "Student" && <ViewEC />}
             {userName === "Module Staff" && <StudentFeedback />}
+            {userName === "Reply Staff" && <ReplyFeedback supabase={supabase} />}
           </>
         )}
       </main>
