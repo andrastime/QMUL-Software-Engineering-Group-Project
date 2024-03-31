@@ -5,6 +5,8 @@ const CreateTicket = ({ supabase }) => {
   const [ticket, setTicket] = useState({
     title: "",
     description: "",
+    ticket_class: "",
+    status: "SUBMITTED",
   });
 
   const [submissionStatus, setSubmissionStatus] = useState(null);
@@ -24,6 +26,8 @@ const CreateTicket = ({ supabase }) => {
       {
         title: ticket.title,
         description: ticket.description,
+        ticket_class: ticket.ticket_class,
+        status: ticket.status,
       },
     ]);
 
@@ -38,12 +42,35 @@ const CreateTicket = ({ supabase }) => {
     setTicket({
       title: "",
       description: "",
+      ticket_class: "",
+      status: "SUBMITTED",
     });
   };
 
   return (
     <div className="submit-ticket-container">
-      <h2>Create Ticket</h2>
+      <div className="title-wrapper">
+        <h2>Create Ticket</h2>
+        <div className="type-wrapper">
+          <label htmlFor="type" className="type-label">
+            Type:
+          </label>
+          <select
+            id="ticket_class"
+            name="ticket_class"
+            value={ticket.type}
+            onChange={handleChange}
+            required
+            className="ticket-type"
+          >
+            <option value="">Choose</option>
+            <option value="Lab">Lab</option>
+            <option value="Service">Service</option>
+            <option value="System">System</option>
+          </select>
+        </div>
+      </div>
+
       <form onSubmit={handleSubmit}>
         <label htmlFor="title">Title:</label>
         <input
