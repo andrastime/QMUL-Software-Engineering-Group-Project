@@ -86,3 +86,11 @@
     background: rgb(197, 197, 197);
     overflow: hidden;
 }
+
+.reply-btn {
+    background-color: var(--QMblue);
+    color: white;
+    border-radius: 5px;
+    border-color: var(--QMlightgrey);
+    padding: 0.5rem;
+}

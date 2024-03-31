@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from "react";
 import "./studentfeedback.css";
+import ReplyFeedback from "./replyToFeedback";
 
 const StudentFeedback = ({ supabase }) => {
   const [feedbackData, setFeedbackData] = useState([]);
   const [selectedModule, setSelectedModule] = useState("");
   const [searchedStudent, setSearchedStudent] = useState("");
+  const [showReply, setShowReply] = useState(false);
 
   useEffect(() => {
     const fetchFeedbackData = async () => {
@@ -44,6 +46,7 @@ const StudentFeedback = ({ supabase }) => {
 
   return (
     <div className="studentfeedback-container">
+      {showReply && <ReplyFeedback supabase={supabase} />}
       <div className="selectors">
         <div className="select-module">
           <h4 id="select-module-text">Select module</h4>
@@ -55,6 +58,7 @@ const StudentFeedback = ({ supabase }) => {
           </select>
         </div>
         <input className="search-student" type="text" placeholder="search student by ID / name" onChange={(e) => setSearchedStudent(e.target.value)}/>
+        <button className="reply-btn" onClick={() => setShowReply(!showReply)}>{showReply ? "Hide reply box" : "Show reply box"}</button>
       </div>
       <div className="feedback-header-container">
         <h3>Feedback</h3>
