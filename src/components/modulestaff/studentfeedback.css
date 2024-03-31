@@ -65,3 +65,7 @@
 .feedback-item.even {
     background-color: rgba(217, 217, 217, 0.50);
 }
+
+.expanded-item {
+    border-bottom: 2px solid var(--QMlightgrey);
+}

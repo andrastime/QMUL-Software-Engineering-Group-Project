@@ -16,6 +16,16 @@ const StudentFeedback = ({ supabase }) => {
     fetchFeedbackData();
   }, []);
 
+  const [expandedItem, setExpandedItem] = useState(null);
+
+  const handleItemClick = (index) => {
+    if (expandedItem === index) {
+      setExpandedItem(null);
+    } else {
+      setExpandedItem(index);
+    }
+  };
+
   return (
     <div className="studentfeedback-container">
       <div className="selectors">
@@ -35,17 +45,30 @@ const StudentFeedback = ({ supabase }) => {
       </div>
       <div className="feedback-container">
         {feedbackData.map((feedback, index) => (
-          <div className={`feedback-item ${index % 2 === 0 ? "" : "even"}`} key={feedback.id}>
-            <h2 style={{ width: "25%", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", padding: "0 32px 0 0", color: "var(--QMblue)"}}>{feedback.title}</h2>
-            <p style={{ width: "50%", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", padding: "0 64px 0 0", fontSize: "14px"}}>{feedback.comment}</p>
-            <div style={{ width: "25%", display: "flex" }}>
-              {/*<img src={feedback.profilePicture} alt="Profile" />*/}
-              <div>
-                {/*<p>{feedback.name}</p>*/}
-                <p>{feedback.created_at}</p>
+          <>
+            <div
+              className={`feedback-item ${index % 2 === 0 ? "" : "even"} ${expandedItem === index ? "expanded" : ""}`}
+              key={feedback.id}
+              onClick={() => handleItemClick(index)}
+              >
+              <h2 style={{ width: "25%", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", padding: "2px 32px 2px 0", color: "var(--QMblue)"}}>{feedback.title}</h2>
+              <p style={{ width: "50%", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", padding: "2px 64px 2px 0", fontSize: "14px"}}>{feedback.comment}</p>
+              <div style={{ width: "25%", display: "flex" }}>
+                {/*<img src={feedback.profilePicture} alt="Profile" />*/}
+                <div>
+                  {/*<p>{feedback.name}</p>*/}
+                  <p>{feedback.created_at}</p>
+                </div>
               </div>
             </div>
-          </div>
+            <>
+            {expandedItem === index && (
+                <div className="expanded-item">
+                  {/* Add content for expanded item here */}
+                </div>
+            )}
+            </>
+          </>
         ))}
       </div>
     </div>
