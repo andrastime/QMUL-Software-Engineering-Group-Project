@@ -36,8 +36,8 @@ const StudentFeedback = ({ supabase }) => {
       <div className="feedback-container">
         {feedbackData.map((feedback, index) => (
           <div className={`feedback-item ${index % 2 === 0 ? "" : "even"}`} key={feedback.id}>
-            <h2 style={{ width: "15%", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", padding: "0 32px 0 0" }}>{feedback.id}</h2>
-            <p style={{ width: "60%", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", padding: "0 64px 0 0" }}>{feedback.comment}</p>
+            <h2 style={{ width: "25%", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", padding: "0 32px 0 0", color: "var(--QMblue)"}}>{feedback.title}</h2>
+            <p style={{ width: "50%", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", padding: "0 64px 0 0", fontSize: "14px"}}>{feedback.comment}</p>
             <div style={{ width: "25%", display: "flex" }}>
               {/*<img src={feedback.profilePicture} alt="Profile" />*/}
               <div>
