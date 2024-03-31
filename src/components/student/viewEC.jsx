@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./viewEC.css";
 import { createClient } from "@supabase/supabase-js";
 import ApplyEC from "./applyEC";
+import ECdetails from "./ECdetails"
 
 const supabaseUrl = "https://dswpmnhkvgpxqapgddfe.supabase.co";
 const supabaseAnonKey =
@@ -37,10 +38,22 @@ const ViewEC = () => {
 
   const feedbackData = [...feedbackData2, ...feedbackData2, ...feedbackData2];
 
+  
+  const ECclaim1 = { title: "First EC Title", description: "This is a dummy description for the first EC", status: "Pending",
+                    evidence: "evidence.jpg"}
+
+  // used this to test what ECdetails component will look like 
+
+  const [isECOpen, setIsECOpen] = useState(false);
+
+  const handleToggleEC = () => {
+    setIsECOpen(!isECOpen);
+  };
+
   const renderContent = () => {
     switch (activeTab) {
       case "Tickets":
-        return <div>Tickets Content</div>;
+        return <div> Test feedback content </div>;
 
       case "Feedback":
         return (
@@ -67,6 +80,12 @@ const ViewEC = () => {
       case "Extenuating Circumstances":
         return (
           <div>
+            <button type="button" onClick={handleToggleEC}>Test opening EC</button>
+            {isECOpen && (
+          <ECdetails title = {ECclaim1.title} description = {ECclaim1.description} status = {ECclaim1.status}
+          evidence = {ECclaim1.evidence} onClose={handleToggleEC}></ECdetails>
+          )}
+
             <ApplyEC supabase={supabase} />
           </div>
         );
