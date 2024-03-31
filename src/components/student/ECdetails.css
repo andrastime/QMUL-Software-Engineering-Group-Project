@@ -30,3 +30,12 @@
 .testDiv button{
     position: relative;
 }
+
+.entries-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.entry {
+  margin-bottom: 20px; /* Adjust the spacing as needed */
+}
