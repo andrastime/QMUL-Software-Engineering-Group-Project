@@ -1,0 +1,78 @@
+#apply-ec-form {
+  width: 85vw;
+  margin: 25px auto;
+  font-size: 1.2em;
+  background-color: var(--QMblue);
+  border-radius: 30px;
+  padding: 5%;
+}
+
+#apply-ec-form h1 {
+  color: white;
+  margin-bottom: 20px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+}
+
+#apply-ec-form form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex;
+}
+
+#apply-ec-form label {
+  margin-bottom: 8px;
+  color: white;
+}
+
+#apply-ec-form input[type="text"],
+#apply-ec-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 2px solid var(--QMlightgrey);
+  resize: vertical;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+#apply-ec-form input[type="checkbox"] {
+  margin-right: 5px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+#apply-ec-form button {
+  padding: 10px 20px;
+  background-color: white;
+  color: var(--QMblue);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.8em;
+  margin-top: 1rem;
+  margin-left: 63rem;
+  width: 10%;
+}
+
+#apply-ec-form button:hover {
+  background-color: var(--QMdarkblue);
+  color: white;
+}
+
+.error-message,
+.success-message {
+  position: relative;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  font-size: 1.1em;
+  margin-top: 10px;
+}

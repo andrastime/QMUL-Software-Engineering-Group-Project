@@ -1,7 +1,20 @@
 import React, { useState } from "react";
 import "./viewEC.css";
+import { createClient } from "@supabase/supabase-js";
+import ApplyEC from "./applyEC";
+
+const supabaseUrl = "https://dswpmnhkvgpxqapgddfe.supabase.co";
+const supabaseAnonKey =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRzd3BtbmhrdmdweHFhcGdkZGZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTA0MjYzNTgsImV4cCI6MjAyNjAwMjM1OH0.IBBT3bh87_nDHckwlR434DuHI1UvcoVypfcJH90s4eA";
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 const ViewEC = () => {
+  const [activeTab, setActiveTab] = useState("Tickets");
+
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+  };
+
   const feedbackData2 = [
     {
       title: "Feedback 1 title",
@@ -24,45 +37,68 @@ const ViewEC = () => {
 
   const feedbackData = [...feedbackData2, ...feedbackData2, ...feedbackData2];
 
+  const renderContent = () => {
+    switch (activeTab) {
+      case "Tickets":
+        return <div>Tickets Content</div>;
+
+      case "Feedback":
+        return (
+          <div className="feedback-container">
+            {feedbackData.map((feedback, index) => (
+              <div
+                className={`feedback-item ${index % 2 === 0 ? "even" : ""}`}
+                key={index}
+              >
+                <h2 style={{ width: "15%" }}>{feedback.title}</h2>
+                <p style={{ width: "60%" }}>{feedback.description}</p>
+                <div style={{ width: "25%", display: "flex" }}>
+                  <img src={feedback.profilePicture} alt="profile" />
+                  <div>
+                    <p>{feedback.name}</p>
+                    <p>{feedback.datePosted}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        );
+
+      case "Extenuating Circumstances":
+        return (
+          <div>
+            <ApplyEC supabase={supabase} />
+          </div>
+        );
+
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="studentfeedback-container">
-      <div className="selectors">
-        <div className="select-module">
-          <h4 id="select-module-text">Select module</h4>
-          <select className="select-box">
-            <option value="option1">ECS518U</option>
-            <option value="option2">ECS522U</option>
-            <option value="option3">ECS506U</option>
-          </select>
-        </div>
-        <input
-          className="search-student"
-          type="text"
-          placeholder="search student by ID / name"
-        />
+      <div className="tab-container">
+        <button
+          className={activeTab === "Extenuating Circumstances" ? "active" : ""}
+          onClick={() => handleTabClick("Extenuating Circumstances")}
+        >
+          EC
+        </button>
+        <button
+          className={activeTab === "Tickets" ? "active" : ""}
+          onClick={() => handleTabClick("Tickets")}
+        >
+          Tickets
+        </button>
+        <button
+          className={activeTab === "Feedback" ? "active" : ""}
+          onClick={() => handleTabClick("Feedback")}
+        >
+          Feedback
+        </button>
       </div>
-      <div className="feedback-header-container">
-        <h3>Feedback</h3>
-        <h3 className="started-by-text">Started by</h3>
-      </div>
-      <div className="feedback-container">
-        {feedbackData.map((feedback, index) => (
-          <div
-            className={`feedback-item ${index % 2 === 0 ? "even" : ""}`}
-            key={index}
-          >
-            <h2 style={{ width: "15%" }}>{feedback.title}</h2>
-            <p style={{ width: "60%" }}>{feedback.description}</p>
-            <div style={{ width: "25%", display: "flex" }}>
-              <img src={feedback.profilePicture} alt="profile" />
-              <div>
-                <p>{feedback.name}</p>
-                <p>{feedback.datePosted}</p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+      {renderContent()}
     </div>
   );
 };

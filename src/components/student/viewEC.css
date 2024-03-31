@@ -1,7 +1,8 @@
 .studentfeedback-container {
-  width: 80vw; /* change this when rest of html is added */
+  width: 85vw; /* change this when rest of html is added */
   margin: 25px 15px;
   margin: 15px auto; /*temporary centering*/
+  background-color: white;
 }
 
 .studentfeedback-container .selectors {
@@ -63,4 +64,54 @@
 
 .feedback-item.even {
   background-color: rgba(217, 217, 217, 0.5);
+}
+
+.studentfeedback-container {
+  font-family: Arial, sans-serif;
+}
+
+.tab-container {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tab-container button {
+  padding: 20px 30px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  outline: none;
+  border-bottom: 3px solid transparent;
+  font-size: 16px;
+  color: #000000;
+}
+
+.tab-container button.active {
+  border-bottom: 3px solid var(--QMblue);
+  font-weight: bold;
+}
+
+.feedback-item {
+  border-bottom: 1px solid #cccccc;
+  padding: 15px 0;
+}
+
+.feedback-item.even {
+  background-color: #f9f9f9;
+}
+
+.feedback-item img {
+  margin-right: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+}
+
+.selectors,
+.feedback-header-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
 }
