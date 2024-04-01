@@ -57,10 +57,40 @@
     display: flex;
     justify-content: flex-start;
     padding: 14px 16px;
+    height: 60px;
     background-color: white;
     align-items: center;
 }
 
 .feedback-item.even {
     background-color: rgba(217, 217, 217, 0.50);
+}
+
+.expanded-item {
+    border-bottom: 2px solid var(--QMlightgrey);
+    line-height: normal;
+    padding: 0 16px;
+}
+
+#expanded-item-title {
+    font-weight: 700;
+    color: var(--QMblue);
+    padding-top: 0.5rem;
+}
+
+.profile-pic {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: rgb(197, 197, 197);
+    overflow: hidden;
+}
+
+.reply-btn {
+    background-color: var(--QMblue);
+    color: white;
+    border-radius: 5px;
+    border-color: var(--QMlightgrey);
+    padding: 0.5rem;
 }

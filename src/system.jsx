@@ -101,7 +101,7 @@ export const System = () => {
         ) : (
           <>
             {userName === "Student" && <ViewEC />}
-            {userName === "Module Staff" && <StudentFeedback />}
+            {userName === "Module Staff" && <StudentFeedback supabase={supabase}/>}
           </>
         )}
       </main>
