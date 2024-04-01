@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./viewEC.css";
 import { createClient } from "@supabase/supabase-js";
 import ApplyEC from "./applyEC";
+import ECdetails from "./ECdetails"
 
 const supabaseUrl = "https://dswpmnhkvgpxqapgddfe.supabase.co";
 const supabaseAnonKey =
@@ -37,10 +38,41 @@ const ViewEC = () => {
 
   const feedbackData = [...feedbackData2, ...feedbackData2, ...feedbackData2];
 
+  const [ECs, setECs] = useState([]);
+
+    useEffect(() => {
+      getECs();
+    }, []);
+
+    async function getECs() {
+      const { data } = await supabase.from("extenuating_circumstances").select();
+      setECs(data);
+    }
+
+    console.log(ECs)
+
+  
+
+  // used this to test what ECdetails component will look like 
+
+  const [selectedEntry, setSelectedEntry] = useState(null);
+  const [showAllECs, setShowAllECs] = useState(true);
+
+  const handleTitleClick = (entry) => {
+    setSelectedEntry(entry);
+    setShowAllECs(false);
+  };
+
+  const handleCloseEC = () => {
+    setSelectedEntry(null);
+    setShowAllECs(true);
+  };
+
+
   const renderContent = () => {
     switch (activeTab) {
       case "Tickets":
-        return <div>Tickets Content</div>;
+        return <div> Test feedback content </div>;
 
       case "Feedback":
         return (
@@ -66,7 +98,28 @@ const ViewEC = () => {
 
       case "Extenuating Circumstances":
         return (
-          <div>
+          <div className="entriesContainer">
+            {showAllECs ? (
+              ECs.map(row => (
+                <div key={row.id} className="entry">
+                  <p>ID: {row.id}</p>
+                  <p>Created At: {row.created_at}</p>
+                  <p>Student ID: {row.Student_ID}</p>
+                  <button onClick={() => handleTitleClick(row)}>
+                    <p>Title: {row.title}</p>
+                  </button>
+                  <p>Description: {row.description}</p>
+                  {/* Add more fields as needed */}
+                </div>
+              ))
+            ) : (
+              <ECdetails
+                title={selectedEntry.title}
+                description={selectedEntry.description}
+                status={selectedEntry.status}
+                onClose={handleCloseEC}
+              />
+            )}
             <ApplyEC supabase={supabase} />
           </div>
         );
