@@ -1,22 +1,22 @@
-.studentfeedback-container {
+.studentfeedback-containerk {
     width: 80vw; /* change this when rest of html is added */
     margin: 25px 15px;
     margin: 15px auto; /*temporary centering*/
 }
 
-.studentfeedback-container .selectors {
+.studentfeedback-containerk .selectorsk {
     display: flex;
     padding: 22px 16px;
     align-items: center;
     gap: 40px;
 }
 
-.studentfeedback-container .selectors .select-module {
+.studentfeedback-containerk .selectorsk .select-modulek {
     display: flex;
     align-items: center;
 }
 
-.select-box {
+.select-boxk {
     background-color: white;
     width: 259px;
     height: 40px;
@@ -24,11 +24,11 @@
     border: 2px solid var(--QMlightgrey);
 }
 
-#select-module-text {
+#select-module-textk {
     margin: 12px;
 }
 
-.studentfeedback-container .selectors .search-student {
+.studentfeedback-containerk .selectorsk .search-studentk {
     background-color: white;
     width: 320px;
     height: 40px;
@@ -36,7 +36,7 @@
     border: 2px solid var(--QMlightgrey);
 }
 
-.studentfeedback-container .feedback-header-container {
+.studentfeedback-containerk .feedback-header-containerk {
     display: flex;
     padding: 22px 16px;
     border-bottom: 3px solid var(--QMlightgrey);
@@ -44,16 +44,16 @@
     font-weight: 700;
 }
 
-.started-by-text {
+.started-by-textk {
     margin-left: auto;
     width: 25%;
 }
 
-.feedback-container {
+.feedback-containerk {
     display: flex;
     flex-direction: column;
 }
-.feedback-item {
+.feedback-itemk {
     display: flex;
     justify-content: flex-start;
     padding: 14px 16px;
@@ -62,23 +62,23 @@
     align-items: center;
 }
 
-.feedback-item.even {
+.feedback-itemk.evenk {
     background-color: rgba(217, 217, 217, 0.50);
 }
 
-.expanded-item {
+.expanded-itemk {
     border-bottom: 2px solid var(--QMlightgrey);
     line-height: normal;
     padding: 0 16px;
 }
 
-#expanded-item-title {
+#expanded-item-titlek {
     font-weight: 700;
     color: var(--QMblue);
     padding-top: 0.5rem;
 }
 
-.profile-pic {
+.profile-pick {
     width: 35px;
     height: 35px;
     border-radius: 50%;
@@ -87,7 +87,7 @@
     overflow: hidden;
 }
 
-.reply-btn {
+.reply-btnk {
     background-color: var(--QMblue);
     color: white;
     border-radius: 5px;

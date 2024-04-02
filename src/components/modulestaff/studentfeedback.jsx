@@ -45,32 +45,32 @@ const StudentFeedback = ({ supabase }) => {
   const uniqueModules = [...new Set(feedbackData.map((feedback) => feedback.module))];
 
   return (
-    <div className="studentfeedback-container">
+    <div className="studentfeedback-containerk">
       {showReply && <ReplyFeedback supabase={supabase} />}
-      <div className="selectors">
-        <div className="select-module">
-          <h4 id="select-module-text">Select module</h4>
-          <select className="select-box" value={selectedModule} onChange={(e) => setSelectedModule(e.target.value)}>
+      <div className="selectorsk">
+        <div className="select-modulek">
+          <h4 id="select-module-textk">Select module</h4>
+          <select className="select-boxk" value={selectedModule} onChange={(e) => setSelectedModule(e.target.value)}>
             <option value="">All Modules</option>
             {uniqueModules.map((module) => (
               <option key={module} value={module}>{module}</option>
             ))}
           </select>
         </div>
-        <input className="search-student" type="text" placeholder="search student by ID / name" onChange={(e) => setSearchedStudent(e.target.value)}/>
-        <button className="reply-btn" onClick={() => setShowReply(!showReply)}>{showReply ? "Hide reply box" : "Show reply box"}</button>
+        <input className="search-studentk" type="text" placeholder="search student by ID / name" onChange={(e) => setSearchedStudent(e.target.value)}/>
+        <button className="reply-btnk" onClick={() => setShowReply(!showReply)}>{showReply ? "Hide reply box" : "Show reply box"}</button>
       </div>
-      <div className="feedback-header-container">
+      <div className="feedback-header-containerk">
         <h3>Feedback</h3>
-        <h3 className="started-by-text">Started by</h3>
+        <h3 className="started-by-textk">Started by</h3>
       </div>
-      <div className="feedback-container">
+      <div className="feedback-containerk">
         {feedbackData
           .filter((feedback) => feedback.module.includes(selectedModule))
           .map((feedback, index) => (
           <>
             <div
-              className={`feedback-item ${index % 2 === 0 ? "" : "even"} ${expandedItem === index ? "expanded" : ""}`}
+              className={`feedback-itemk ${index % 2 === 0 ? "" : "evenk"} ${expandedItem === index ? "expanded" : ""}`}
               key={feedback.id}
               onClick={() => handleItemClick(index)}
               >
@@ -78,7 +78,7 @@ const StudentFeedback = ({ supabase }) => {
               <p style={{ width: "50%", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", padding: "2px 64px 2px 0", fontSize: "14px"}}>{feedback.comment}</p>
               <div style={{ width: "25%", display: "flex", gap: "10px" }}>
                 {/*<img src={feedback.profilePicture} alt="Profile" />*/}
-                <div className="profile-pic"></div>
+                <div className="profile-pick"></div>
                 <div>
                   <p>{feedback.anonymous === false ? "NAME" : "Anonymous"}</p>
                   <p>{shortDate(feedback.created_at)}</p>
@@ -87,9 +87,9 @@ const StudentFeedback = ({ supabase }) => {
             </div>
             <>
             {expandedItem === index && (
-                <div className="expanded-item">
+                <div className="expanded-itemk">
                   {/* Add content for expanded item here */}
-                  <h1 id="expanded-item-title">{feedback.title}</h1>
+                  <h1 id="expanded-item-titlek">{feedback.title}</h1>
                   <h2>by {feedback.anonymous === false ? "NAME" : "Anonymous"} - {longDate(feedback.created_at)}</h2>
                   <p style={{margin: "2rem 0"}}>{feedback.comment}</p>
                 </div>
