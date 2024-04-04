@@ -1,59 +1,62 @@
 import "./index.css";
-import { createClient } from "@supabase/supabase-js";
-import { StudentFeedback } from "./components";
-import { CreateTicket } from "./components";
+import {
+  CreateTicket,
+  ViewEC,
+  StudentFeedback,
+  TicketsMenu,
+} from "./components";
 import { useState, useEffect } from "react";
-import { ViewEC } from "./components";
-
-const supabaseUrl = "https://dswpmnhkvgpxqapgddfe.supabase.co";
-const supabaseAnonKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRzd3BtbmhrdmdweHFhcGdkZGZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTA0MjYzNTgsImV4cCI6MjAyNjAwMjM1OH0.IBBT3bh87_nDHckwlR434DuHI1UvcoVypfcJH90s4eA";
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+import { supabase } from "./supabaseClient";
 
 export const System = () => {
-  const [userName, setUserName] = useState("");
+  const [user, setUser] = useState(null);
+  const [role, setRole] = useState("");
   const [showCreateTicket, setShowCreateTicket] = useState(false);
+
+  useEffect(() => {
+    const currentSession = supabase.auth.session; // Accessing session as a property
+    setUser(currentSession?.user || null);
+    updateRole(currentSession?.user?.email);
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      async (_event, session) => {
+        setUser(session?.user || null);
+        updateRole(session?.user?.email);
+      }
+    );
+  }, []);
+
+  const updateRole = (email) => {
+    let currentRole = "Student";
+    if (email === "modstaffmember@qmul.ac.uk") {
+      currentRole = "Module Staff";
+    } else if (email === "admin@qmul.ac.uk") {
+      currentRole = "Admin";
+    }
+    setRole(currentRole);
+  };
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) console.error("Logout error", error.message);
+  };
 
   const handleCreateTicket = (event) => {
     event.preventDefault();
     setShowCreateTicket((prev) => !prev);
   };
 
-  useEffect(() => {
-    supabase.auth.onAuthStateChange((_event, session) => {
-      updateUserName(session);
-    });
-  }, []);
-
-  const updateUserName = (session) => {
-    if (session && session.user) {
-      const userEmail = session.user.email;
-      let name;
-
-      switch (userEmail) {
-        case "qmstudent@qmul.ac.uk":
-          name = "Student";
-          break;
-        case "modstaffmember@qmul.ac.uk":
-          name = "Module Staff";
-          break;
-        case "admin@qmul.ac.uk":
-          name = "Admin";
-          break;
-        default:
-          name = "User";
-          break;
-      }
-
-      setUserName(name);
-    } else {
-      setUserName("User");
+  const renderComponentBasedOnRole = () => {
+    switch (role) {
+      case "Student":
+        return <ViewEC supabase={supabase} userId={user?.id} />;
+      case "Module Staff":
+        return <StudentFeedback supabase={supabase} />;
+      case "Admin":
+        return <TicketsMenu supabase={supabase} />;
+      default:
+        return null; // or a default component
     }
-  };
-
-  const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) console.error("Logout error", error.message);
   };
 
   return (
@@ -74,7 +77,7 @@ export const System = () => {
       </div>
 
       <header className="dashboard-header">
-        <h1 className="user-dashboard">{userName} Dashboard</h1>
+        <h1 className="user-dashboard">{role} Dashboard</h1>
         <form className="search-form">
           <label htmlFor="search-option" className="search-label">
             Search option
@@ -89,6 +92,7 @@ export const System = () => {
             <img src="/search-icon.svg" alt="Search" />
           </button>
           <input type="text" className="search-input" />
+
           <button className="ticket-btn" onClick={handleCreateTicket}>
             {showCreateTicket ? "Back" : "Create Ticket"}
           </button>
@@ -99,10 +103,7 @@ export const System = () => {
         {showCreateTicket ? (
           <CreateTicket supabase={supabase} />
         ) : (
-          <>
-            {userName === "Student" && <ViewEC />}
-            {userName === "Module Staff" && <StudentFeedback supabase={supabase}/>}
-          </>
+          renderComponentBasedOnRole()
         )}
       </main>
     </div>
