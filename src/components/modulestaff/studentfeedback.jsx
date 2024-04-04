@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "./studentfeedback.css";
 import ReplyFeedback from "./replyToFeedback";
 
@@ -20,7 +20,7 @@ const StudentFeedback = ({ supabase }) => {
       }
     };
     fetchFeedbackData();
-  }, []);
+  });
 
   const [expandedItem, setExpandedItem] = useState(null);
 
@@ -34,15 +34,29 @@ const StudentFeedback = ({ supabase }) => {
 
   const longDate = (date) => {
     const newDate = new Date(date);
-    return newDate.toLocaleString('en-US', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true });
-  }
+    return newDate.toLocaleString("en-US", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    });
+  };
 
   const shortDate = (date) => {
     const newDate = new Date(date);
-    return newDate.toLocaleString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
-  }
+    return newDate.toLocaleString("en-US", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+  };
 
-  const uniqueModules = [...new Set(feedbackData.map((feedback) => feedback.module))];
+  const uniqueModules = [
+    ...new Set(feedbackData.map((feedback) => feedback.module)),
+  ];
 
   return (
     <div className="studentfeedback-containerk">
@@ -50,15 +64,28 @@ const StudentFeedback = ({ supabase }) => {
       <div className="selectorsk">
         <div className="select-modulek">
           <h4 id="select-module-textk">Select module</h4>
-          <select className="select-boxk" value={selectedModule} onChange={(e) => setSelectedModule(e.target.value)}>
+          <select
+            className="select-boxk"
+            value={selectedModule}
+            onChange={(e) => setSelectedModule(e.target.value)}
+          >
             <option value="">All Modules</option>
             {uniqueModules.map((module) => (
-              <option key={module} value={module}>{module}</option>
+              <option key={module} value={module}>
+                {module}
+              </option>
             ))}
           </select>
         </div>
-        <input className="search-studentk" type="text" placeholder="search student by ID / name" onChange={(e) => setSearchedStudent(e.target.value)}/>
-        <button className="reply-btnk" onClick={() => setShowReply(!showReply)}>{showReply ? "Hide reply box" : "Show reply box"}</button>
+        <input
+          className="search-studentk"
+          type="text"
+          placeholder="search student by ID / name"
+          onChange={(e) => setSearchedStudent(e.target.value)}
+        />
+        <button className="reply-btnk" onClick={() => setShowReply(!showReply)}>
+          {showReply ? "Hide reply box" : "Show reply box"}
+        </button>
       </div>
       <div className="feedback-header-containerk">
         <h3>Feedback</h3>
@@ -68,35 +95,62 @@ const StudentFeedback = ({ supabase }) => {
         {feedbackData
           .filter((feedback) => feedback.module.includes(selectedModule))
           .map((feedback, index) => (
-          <>
-            <div
-              className={`feedback-itemk ${index % 2 === 0 ? "" : "evenk"} ${expandedItem === index ? "expanded" : ""}`}
-              key={feedback.id}
-              onClick={() => handleItemClick(index)}
+            <>
+              <div
+                className={`feedback-itemk ${index % 2 === 0 ? "" : "evenk"} ${
+                  expandedItem === index ? "expanded" : ""
+                }`}
+                key={feedback.id}
+                onClick={() => handleItemClick(index)}
               >
-              <h2 style={{ width: "25%", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", padding: "2px 32px 2px 0", color: "var(--QMblue)"}}>{feedback.title}</h2>
-              <p style={{ width: "50%", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", padding: "2px 64px 2px 0", fontSize: "14px"}}>{feedback.comment}</p>
-              <div style={{ width: "25%", display: "flex", gap: "10px" }}>
-                {/*<img src={feedback.profilePicture} alt="Profile" />*/}
-                <div className="profile-pick"></div>
-                <div>
-                  <p>{feedback.anonymous === false ? "NAME" : "Anonymous"}</p>
-                  <p>{shortDate(feedback.created_at)}</p>
+                <h2
+                  style={{
+                    width: "25%",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    padding: "2px 32px 2px 0",
+                    color: "var(--QMblue)",
+                  }}
+                >
+                  {feedback.title}
+                </h2>
+                <p
+                  style={{
+                    width: "50%",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    padding: "2px 64px 2px 0",
+                    fontSize: "14px",
+                  }}
+                >
+                  {feedback.comment}
+                </p>
+                <div style={{ width: "25%", display: "flex", gap: "10px" }}>
+                  {/*<img src={feedback.profilePicture} alt="Profile" />*/}
+                  <div className="profile-pick"></div>
+                  <div>
+                    <p>{feedback.anonymous === false ? "NAME" : "Anonymous"}</p>
+                    <p>{shortDate(feedback.created_at)}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-            <>
-            {expandedItem === index && (
-                <div className="expanded-itemk">
-                  {/* Add content for expanded item here */}
-                  <h1 id="expanded-item-titlek">{feedback.title}</h1>
-                  <h2>by {feedback.anonymous === false ? "NAME" : "Anonymous"} - {longDate(feedback.created_at)}</h2>
-                  <p style={{margin: "2rem 0"}}>{feedback.comment}</p>
-                </div>
-            )}
+              <>
+                {expandedItem === index && (
+                  <div className="expanded-itemk">
+                    {/* Add content for expanded item here */}
+                    <h1 id="expanded-item-titlek">{feedback.title}</h1>
+                    <h2>
+                      by {feedback.anonymous === false ? "NAME" : "Anonymous"} -{" "}
+                      {longDate(feedback.created_at)}
+                    </h2>
+                    <p style={{ margin: "2rem 0" }}>{feedback.comment}</p>
+                  </div>
+                )}
+              </>
             </>
-          </>
-        ))}
+          ))}
       </div>
     </div>
   );
