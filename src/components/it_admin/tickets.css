@@ -1,0 +1,165 @@
+.itticket-container {
+    width: 80vw; /* change this when rest of html is added */
+    margin: 25px 15px;
+    margin: 15px auto; /*temporary centering*/
+}
+
+.itticket-container .selectors {
+    display: flex;
+    padding: 22px 16px;
+    align-items: center;
+    gap: 40px;
+}
+
+.itticket-container .selectors .select-ticket-class {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.select-box {
+    background-color: white;
+    width: 259px;
+    height: 40px;
+    border-radius: 5px;
+    border: 2px solid var(--QMlightgrey);
+}
+
+.itticket-container .selectors #search-it {
+    background-color: white;
+    width: 320px;
+    height: 40px;
+    border-radius: 5px;
+    border: 2px solid var(--QMlightgrey);
+}
+
+.itticket-container .ticket-header-container {
+    display: flex;
+    padding: 22px 16px;
+    border-bottom: 3px solid var(--QMlightgrey);
+    color: var(--QMblue);
+    font-weight: 700;
+}
+
+
+.ticket-container {
+    display: flex;
+    flex-direction: column;
+}
+.ticket-item {
+    display: flex;
+    justify-content: flex-start;
+    padding: 14px 16px;
+    background-color: white;
+    align-items: center;
+    max-height: 80px;
+    text-overflow: ellipsis;
+}
+
+.ticket-item.even {
+    background-color: rgba(217, 217, 217, 0.50);
+}
+
+.ticket-container button img{ /* ellipses button */
+    max-width: 20px;
+    max-height: auto;
+}
+
+.ticket-container button img{ /* ellipses button */
+    max-width: 20px;
+    max-height: auto;
+}
+
+.ticket-container button{
+    background-color: rgba(217, 217, 217, 0.50);
+    border: none;
+    width: 40px;
+    height: 40px;
+    padding: 5px 5px;
+    justify-items: center;
+}
+
+.started-by{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    font-size: 90%;
+}
+
+.started-by div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+}
+
+.started-by > img{ /* */
+    height: 30px;
+    width: 30px;
+    border-radius: 25px;
+}
+
+/* Overlay Style */
+
+#overlay{
+    position: fixed;
+    display: none;
+    align-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 2;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    font-size: 110%;
+}
+
+#overlay h2{
+    font-size: 140%;
+    font-weight: bold;
+    color: var(--QMblue);
+    padding-bottom: 30px;
+}
+
+#overlay button{
+    border-radius: 10px;
+    padding: 7px 9px;
+    border: none;
+}
+
+#submit{
+    background-color: var(--QMblue);
+    color: white;
+}
+
+#overlay > button{
+    background-color: white;
+}
+
+#overlay-main-pane #buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#overlay-main-pane{
+    background-color: white;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 30px 40px;
+}
+
+#overlay-main-pane div{
+    width: 70%;
+}
+
+b{
+    font-weight: bold;
+}
