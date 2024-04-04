@@ -14,16 +14,14 @@ export const System = () => {
   const [showCreateTicket, setShowCreateTicket] = useState(false);
 
   useEffect(() => {
-    const currentSession = supabase.auth.session; // Accessing session as a property
+    const currentSession = supabase.auth.session;
     setUser(currentSession?.user || null);
     updateRole(currentSession?.user?.email);
 
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
-        setUser(session?.user || null);
-        updateRole(session?.user?.email);
-      }
-    );
+    supabase.auth.onAuthStateChange(async (_event, session) => {
+      setUser(session?.user || null);
+      updateRole(session?.user?.email);
+    });
   }, []);
 
   const updateRole = (email) => {
@@ -101,7 +99,7 @@ export const System = () => {
 
       <main className="dashboard-main">
         {showCreateTicket ? (
-          <CreateTicket supabase={supabase} />
+          <CreateTicket supabase={supabase} user={user} />
         ) : (
           renderComponentBasedOnRole()
         )}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./createTicket.css";
 
-const CreateTicket = ({ supabase }) => {
+const CreateTicket = ({ supabase, user }) => {
   const [ticket, setTicket] = useState({
     title: "",
     description: "",
@@ -22,12 +22,19 @@ const CreateTicket = ({ supabase }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!user) {
+      console.error("User must be logged in to submit a ticket");
+      setSubmissionStatus("error");
+      return;
+    }
+
     const { data, error } = await supabase.from("ticket").insert([
       {
         title: ticket.title,
         description: ticket.description,
         ticket_class: ticket.ticket_class,
         status: ticket.status,
+        user_id: user.id,
       },
     ]);
 
@@ -58,15 +65,15 @@ const CreateTicket = ({ supabase }) => {
           <select
             id="ticket_class"
             name="ticket_class"
-            value={ticket.type}
+            value={ticket.ticket_class}
             onChange={handleChange}
             required
             className="ticket-type"
           >
             <option value="">Choose</option>
-            <option value="Lab">Lab</option>
-            <option value="Service">Service</option>
-            <option value="System">System</option>
+            <option value="LAB">Lab</option>
+            <option value="SERVICE">Service</option>
+            <option value="SYSTEM">System</option>
           </select>
         </div>
       </div>
