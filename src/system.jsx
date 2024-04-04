@@ -1,6 +1,7 @@
 import "./index.css";
 import { createClient } from "@supabase/supabase-js";
 import { StudentFeedback } from "./components";
+import { TicketsMenu } from "./components"
 import { CreateTicket } from "./components";
 import { useState, useEffect } from "react";
 import { ViewEC } from "./components";
@@ -102,6 +103,7 @@ export const System = () => {
           <>
             {userName === "Student" && <ViewEC />}
             {userName === "Module Staff" && <StudentFeedback supabase={supabase}/>}
+            {userName === "Admin" && <TicketsMenu supabase={supabase}/>}
           </>
         )}
       </main>
