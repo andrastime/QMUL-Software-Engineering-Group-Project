@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./applyEC.css";
 
-function ApplyEC({ supabase }) {
+function ApplyEC({ supabase, user }) {
   const [formData, setFormData] = useState({
     Student_ID: "",
     title: "",
@@ -23,6 +23,12 @@ function ApplyEC({ supabase }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!user) {
+      console.error("User must be logged in to submit an application.");
+      setSubmissionStatus("error");
+      return;
+    }
+
     const { data, error } = await supabase
       .from("extenuating_circumstances")
       .insert([
@@ -32,6 +38,7 @@ function ApplyEC({ supabase }) {
           description: formData.description,
           evidence: formData.evidence,
           status: formData.status,
+          user_id: user.id,
         },
       ]);
 

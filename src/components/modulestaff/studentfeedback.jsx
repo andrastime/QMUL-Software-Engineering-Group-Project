@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./studentfeedback.css";
 import ReplyFeedback from "./replyToFeedback";
 
-const StudentFeedback = ({ supabase }) => {
+const StudentFeedback = ({ supabase, showReplyBox = true }) => {
   const [feedbackData, setFeedbackData] = useState([]);
   const [selectedModule, setSelectedModule] = useState("");
   const [searchedStudent, setSearchedStudent] = useState("");
@@ -16,7 +16,6 @@ const StudentFeedback = ({ supabase }) => {
         console.error("Error fetching feedback data:", error);
       } else {
         setFeedbackData(data);
-        console.log(data);
       }
     };
     fetchFeedbackData();
@@ -25,11 +24,7 @@ const StudentFeedback = ({ supabase }) => {
   const [expandedItem, setExpandedItem] = useState(null);
 
   const handleItemClick = (index) => {
-    if (expandedItem === index) {
-      setExpandedItem(null);
-    } else {
-      setExpandedItem(index);
-    }
+    setExpandedItem(expandedItem === index ? null : index);
   };
 
   const longDate = (date) => {
@@ -60,7 +55,7 @@ const StudentFeedback = ({ supabase }) => {
 
   return (
     <div className="studentfeedback-containerk">
-      {showReply && <ReplyFeedback supabase={supabase} />}
+      {showReplyBox && showReply && <ReplyFeedback supabase={supabase} />}
       <div className="selectorsk">
         <div className="select-modulek">
           <h4 id="select-module-textk">Select module</h4>
@@ -93,7 +88,12 @@ const StudentFeedback = ({ supabase }) => {
       </div>
       <div className="feedback-containerk">
         {feedbackData
-          .filter((feedback) => feedback.module.includes(selectedModule))
+          .filter(
+            (feedback) =>
+              feedback.module.includes(selectedModule) &&
+              (searchedStudent === "" ||
+                feedback.student_id === searchedStudent)
+          )
           .map((feedback, index) => (
             <>
               <div

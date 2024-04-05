@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./viewEC.css";
-import { createClient } from "@supabase/supabase-js";
 import ApplyEC from "./applyEC";
 import ECdetails from "./ECdetails";
 import StudentFeedback from "../modulestaff/studentfeedback";
+import TicketsMenu from "../it_admin/tickets";
 
-const supabaseUrl = "https://dswpmnhkvgpxqapgddfe.supabase.co";
-const supabaseAnonKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRzd3BtbmhrdmdweHFhcGdkZGZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTA0MjYzNTgsImV4cCI6MjAyNjAwMjM1OH0.IBBT3bh87_nDHckwlR434DuHI1UvcoVypfcJH90s4eA";
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-const ViewEC = () => {
+const ViewEC = ({ supabase, user }) => {
   const [activeTab, setActiveTab] = useState("Extenuating Circumstances");
   const [ECs, setECs] = useState([]);
   const [selectedEntry, setSelectedEntry] = useState(null);
@@ -18,13 +13,14 @@ const ViewEC = () => {
   const [showApplyEC, setShowApplyEC] = useState(false);
 
   useEffect(() => {
+    async function getECs() {
+      const { data } = await supabase
+        .from("extenuating_circumstances")
+        .select();
+      setECs(data);
+    }
     getECs();
   }, []);
-
-  async function getECs() {
-    const { data } = await supabase.from("extenuating_circumstances").select();
-    setECs(data);
-  }
 
   const handleTabClick = (tab) => {
     setShowApplyEC(false);
@@ -73,7 +69,7 @@ const ViewEC = () => {
   const renderApplyEC = () => (
     <div>
       <button onClick={handleBackClick}>Back</button>
-      <ApplyEC supabase={supabase} />
+      <ApplyEC supabase={supabase} user={user} />
     </div>
   );
 
@@ -97,6 +93,16 @@ const ViewEC = () => {
 
       case "Feedback":
         return <StudentFeedback supabase={supabase} />;
+
+      case "Tickets":
+        return (
+          <TicketsMenu
+            supabase={supabase}
+            showTabs={false}
+            showStartedBy={false}
+            showOptions={false}
+          />
+        );
 
       default:
         return null;

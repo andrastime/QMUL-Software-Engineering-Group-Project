@@ -14,7 +14,7 @@ export const System = () => {
   const [showCreateTicket, setShowCreateTicket] = useState(false);
 
   useEffect(() => {
-    const currentSession = supabase.auth.session;
+    const currentSession = supabase.auth.getSession();
     setUser(currentSession?.user || null);
     updateRole(currentSession?.user?.email);
 
@@ -26,11 +26,17 @@ export const System = () => {
 
   const updateRole = (email) => {
     let currentRole = "Student";
-    if (email === "modstaffmember@qmul.ac.uk") {
-      currentRole = "Module Staff";
-    } else if (email === "admin@qmul.ac.uk") {
-      currentRole = "Admin";
+
+    const emailRoleMap = {
+      "modstaffmember@qmul.ac.uk": "Module Staff",
+      "admin@qmul.ac.uk": "Admin",
+      "s.lochunah@se22.qmul.ac.uk": "Student",
+    };
+
+    if (email) {
+      currentRole = emailRoleMap[email] || "Student";
     }
+
     setRole(currentRole);
   };
 
@@ -47,13 +53,13 @@ export const System = () => {
   const renderComponentBasedOnRole = () => {
     switch (role) {
       case "Student":
-        return <ViewEC supabase={supabase} userId={user?.id} />;
+        return <ViewEC supabase={supabase} user={user} />;
       case "Module Staff":
         return <StudentFeedback supabase={supabase} />;
       case "Admin":
         return <TicketsMenu supabase={supabase} />;
       default:
-        return null; // or a default component
+        return null;
     }
   };
 
