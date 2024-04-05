@@ -78,9 +78,14 @@ const StudentFeedback = ({ supabase, showReplyBox = true }) => {
           placeholder="search student by ID / name"
           onChange={(e) => setSearchedStudent(e.target.value)}
         />
-        <button className="reply-btnk" onClick={() => setShowReply(!showReply)}>
-          {showReply ? "Hide reply box" : "Show reply box"}
-        </button>
+        {showReplyBox && (
+          <button
+            className="reply-btnk"
+            onClick={() => setShowReply(!showReply)}
+          >
+            {showReply ? "Hide reply box" : "Show reply box"}
+          </button>
+        )}
       </div>
       <div className="feedback-header-containerk">
         <h3>Feedback</h3>
@@ -139,7 +144,6 @@ const StudentFeedback = ({ supabase, showReplyBox = true }) => {
               <>
                 {expandedItem === index && (
                   <div className="expanded-itemk">
-                    {/* Add content for expanded item here */}
                     <h1 id="expanded-item-titlek">{feedback.title}</h1>
                     <h2>
                       by {feedback.anonymous === false ? "NAME" : "Anonymous"} -{" "}

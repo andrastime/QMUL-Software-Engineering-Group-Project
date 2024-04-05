@@ -92,7 +92,7 @@ const ViewEC = ({ supabase, user }) => {
         );
 
       case "Feedback":
-        return <StudentFeedback supabase={supabase} />;
+        return <StudentFeedback supabase={supabase} showReplyBox={false} />;
 
       case "Tickets":
         return (
