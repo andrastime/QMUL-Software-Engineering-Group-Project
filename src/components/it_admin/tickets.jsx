@@ -221,8 +221,8 @@ const TicketsMenu = ({
                             "rgba(190, 190, 190, 0.50)";
                         }}
                         onMouseOver={(e) =>
-                          (e.target.style.background =
-                            "rgba(190, 190, 190, 0.80)")
+                        (e.target.style.background =
+                          "rgba(190, 190, 190, 0.80)")
                         }
                       >
                         <img src="ellipses.png" alt="ellipses" />
@@ -238,16 +238,23 @@ const TicketsMenu = ({
       case "Extenuating Circumstances":
         return (
           <div className="entriesContainer">
+            <div className="entry-header">
+              <h3>ID</h3>
+              <h3>Created At</h3>
+              <h3>Student ID</h3>
+              <h3 id="title-h">Title</h3>
+              <h3 id="desc-h">Description</h3>
+            </div>
             {showAllECs ? (
               ECs.map((row) => (
                 <div key={row.id} className="entry">
-                  <p>ID: {row.id}</p>
-                  <p>Created At: {row.created_at}</p>
-                  <p>Student ID: {row.Student_ID}</p>
-                  <button onClick={() => handleTitleClick(row)}>
-                    <p>Title: {row.title}</p>
+                  <p>{row.id}</p>
+                  <p>{row.created_at}</p>
+                  <p>{row.Student_ID}</p>
+                  <button id="ec-button" onClick={() => handleTitleClick(row)}>
+                    <h2 id="title">{row.title}</h2>
                   </button>
-                  <p>Description: {row.description}</p>
+                  <p id="desc">{row.description}</p>
                 </div>
               ))
             ) : (

@@ -1,7 +1,9 @@
 .itticket-container {
-    width: 80vw; /* change this when rest of html is added */
+    width: 80vw;
+    /* change this when rest of html is added */
     margin: 25px 15px;
-    margin: 15px auto; /*temporary centering*/
+    margin: 15px auto;
+    /*temporary centering*/
 }
 
 .itticket-container .selectors {
@@ -46,6 +48,7 @@
     display: flex;
     flex-direction: column;
 }
+
 .ticket-item {
     display: flex;
     justify-content: flex-start;
@@ -60,17 +63,19 @@
     background-color: rgba(217, 217, 217, 0.50);
 }
 
-.ticket-container button img{ /* ellipses button */
+.ticket-container button img {
+    /* ellipses button */
     max-width: 20px;
     max-height: auto;
 }
 
-.ticket-container button img{ /* ellipses button */
+.ticket-container button img {
+    /* ellipses button */
     max-width: 20px;
     max-height: auto;
 }
 
-.ticket-container button{
+.ticket-container button {
     background-color: rgba(217, 217, 217, 0.50);
     border: none;
     width: 40px;
@@ -79,21 +84,22 @@
     justify-items: center;
 }
 
-.started-by{
+.started-by {
     display: flex;
     flex-direction: row;
     gap: 5px;
     font-size: 90%;
 }
 
-.started-by div{
+.started-by div {
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 4px;
 }
 
-.started-by > img{ /* */
+.started-by>img {
+    /* */
     height: 30px;
     width: 30px;
     border-radius: 25px;
@@ -101,7 +107,7 @@
 
 /* Overlay Style */
 
-#overlay{
+#overlay {
     position: fixed;
     display: none;
     align-content: center;
@@ -115,35 +121,35 @@
     font-size: 110%;
 }
 
-#overlay h2{
+#overlay h2 {
     font-size: 140%;
     font-weight: bold;
     color: var(--QMblue);
     padding-bottom: 30px;
 }
 
-#overlay button{
+#overlay button {
     border-radius: 10px;
     padding: 7px 9px;
     border: none;
 }
 
-#submit{
+#submit {
     background-color: var(--QMblue);
     color: white;
 }
 
-#overlay > button{
+#overlay>button {
     background-color: white;
 }
 
-#overlay-main-pane #buttons{
+#overlay-main-pane #buttons {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
-#overlay-main-pane{
+#overlay-main-pane {
     background-color: white;
     border-radius: 20px;
     display: flex;
@@ -156,86 +162,65 @@
     padding: 30px 40px;
 }
 
-#overlay-main-pane div{
+#overlay-main-pane div {
     width: 70%;
 }
 
-b{
+b {
     font-weight: bold;
 }
 
 .entriesContainer {
-    width: 80vw; 
-    margin: 25px auto;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.entry-header {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
     background-color: white;
-    border: 2px solid var(--QMlightgrey); 
-    border-radius: 10px;
-    padding: 20px;
+    border-bottom: 5px solid var(--QMlightgrey);
+    color: var(--QMblue);
+    font-weight: bold;
+    padding: 10px 20px;
 }
 
-.entriesContainer .entry {
-    margin-bottom: 20px;
-    border-bottom: 1px solid var(--QMlightgrey); 
-    padding-bottom: 15px;
+#title-h, #desc-h {
+    justify-self: center;
 }
 
-.entriesContainer .entry:last-child {
-    border-bottom: none;
+#title, #desc {
+    justify-self: center;
 }
 
-.entriesContainer .entry p {
+.entry {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    padding: 10px 20px;
     margin: 0;
 }
 
-.entriesContainer .entry button {
-    background-color: var(--QMblue); 
+.entry:nth-child(even) {
+    background-color: rgba(217, 217, 217, 0.5);
+}
+
+.entry:nth-child(odd) {
+    background-color: white;
+}
+
+#ec-button {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: var(--QMblue);
     color: white;
     border: none;
     border-radius: 5px;
-    padding: 8px 15px;
-    cursor: pointer;
+    margin-bottom: 15px;
+    margin-top: 10px;
 }
 
-.entriesContainer .entry button:hover {
-    background-color: var(--QMdarkblue); 
+#ec-button:hover {
+    background-color: var(--QMdarkblue);
 }
-
-.entriesContainer .entry button:focus {
-    outline: none;
-}
-
-.entriesContainer .entry .title {
-    font-weight: bold;
-    color: var(--QMblue); 
-}
-
-.entriesContainer .entry .description {
-    margin-top: 5px;
-}
-
-.entriesContainer .entry .created-at {
-    color: var(--QMlightgrey); 
-    font-size: 90%;
-}
-
-.entriesContainer .entry .status {
-    font-weight: bold;
-    color: var(--QMgreen);
-}
-
-.entriesContainer .entry .profile-picture {
-    height: 40px; 
-    width: 40px; 
-    border-radius: 50%;
-    margin-right: 10px;
-}
-
-.entriesContainer .entry .profile-info {
-    display: flex;
-    align-items: center;
-}
-
-.entriesContainer .entry .profile-info p {
-    margin: 0;
-}
-
