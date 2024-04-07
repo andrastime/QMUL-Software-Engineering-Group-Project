@@ -5,4 +5,4 @@ export { default as ReplyFeedback } from "./modulestaff/replyToFeedback";
 export { default as ViewEC } from "./student/viewEC";
 export { default as TicketsMenu } from "./it_admin/tickets";
 export { default as TicketsOverlay } from "./it_admin/ticket-change-overlay";
-export {default as FAQ} from "./faq/faq";
+export { default as FAQ } from "./faq/faq";
