@@ -4,6 +4,7 @@ import {
   ViewEC,
   StudentFeedback,
   TicketsMenu,
+  FAQ,
 } from "./components";
 import { useState, useEffect } from "react";
 import { supabase } from "./supabaseClient";
@@ -12,6 +13,7 @@ export const System = () => {
   const [user, setUser] = useState(null);
   const [role, setRole] = useState("");
   const [showCreateTicket, setShowCreateTicket] = useState(false);
+  const [showFAQ, setShowFAQ] = useState(false);
 
   useEffect(() => {
     const currentSession = supabase.auth.getSession();
@@ -22,7 +24,7 @@ export const System = () => {
       setUser(session?.user || null);
       updateRole(session?.user?.email);
     });
-  }, []);
+  }, [supabase]);
 
   const updateRole = (email) => {
     let currentRole = "Student";
@@ -50,7 +52,15 @@ export const System = () => {
     setShowCreateTicket((prev) => !prev);
   };
 
+  const handleFAQClick = () => {
+    setShowFAQ((prev) => !prev);
+    setShowCreateTicket(false);
+  };
+
   const renderComponentBasedOnRole = () => {
+    if (showFAQ) {
+      return <FAQ />;
+    }
     switch (role) {
       case "Student":
         return <ViewEC supabase={supabase} user={user} />;
@@ -67,6 +77,9 @@ export const System = () => {
     <div className="system">
       <div className="navbar">
         <img src="/menu.svg" alt="Menu" className="menu" />
+        <p className="FAQ" onClick={handleFAQClick}>
+          FAQ
+        </p>
         <img
           src="/notification.svg"
           alt="Notification"
@@ -104,7 +117,9 @@ export const System = () => {
       </header>
 
       <main className="dashboard-main">
-        {showCreateTicket ? (
+        {showFAQ ? (
+          <FAQ />
+        ) : showCreateTicket ? (
           <CreateTicket supabase={supabase} user={user} />
         ) : (
           renderComponentBasedOnRole()
