@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import "./tickets.css";
 
-const TicketsOverlay = (supabase) => {
+const TicketsOverlay = ({ supabase }) => {
   const divRef = useRef(null);
 
   const [title, setTitle] = useState("");
