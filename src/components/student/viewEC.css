@@ -1,7 +1,7 @@
 .studentfeedback-container {
-  width: 85vw; /* change this when rest of html is added */
+  width: 85vw;
   margin: 25px 15px;
-  margin: 15px auto; /*temporary centering*/
+  margin: 15px auto;
   background-color: white;
 }
 
@@ -66,10 +66,6 @@
   background-color: rgba(217, 217, 217, 0.5);
 }
 
-.studentfeedback-container {
-  font-family: Arial, sans-serif;
-}
-
 .tab-container {
   display: flex;
   list-style-type: none;
@@ -114,4 +110,21 @@
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+}
+
+.apply-ec-button {
+  cursor: pointer;
+  background-color: var(--QMblue);
+  color: white;
+  border-radius: 10px;
+  outline: white;
+  margin-left: 65%;
+  height: fit-content;
+  padding: 0.75%;
+  margin-top: 2%;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
 }

@@ -7,6 +7,7 @@ const StudentFeedback = ({ supabase, showReplyBox = true }) => {
   const [selectedModule, setSelectedModule] = useState("");
   const [searchedStudent, setSearchedStudent] = useState("");
   const [showReply, setShowReply] = useState(false);
+  const [expandedItem, setExpandedItem] = useState(null);
 
   useEffect(() => {
     const fetchFeedbackData = async () => {
@@ -21,8 +22,6 @@ const StudentFeedback = ({ supabase, showReplyBox = true }) => {
     };
     fetchFeedbackData();
   }, [supabase]);
-
-  const [expandedItem, setExpandedItem] = useState(null);
 
   const handleItemClick = (index) => {
     setExpandedItem(expandedItem === index ? null : index);
@@ -90,6 +89,7 @@ const StudentFeedback = ({ supabase, showReplyBox = true }) => {
       </div>
       <div className="feedback-header-containerk">
         <h3>Feedback</h3>
+        <h3 className="description-text">Description</h3>
         <h3 className="started-by-textk">Started by</h3>
       </div>
       <div className="feedback-containerk">
@@ -109,35 +109,19 @@ const StudentFeedback = ({ supabase, showReplyBox = true }) => {
                 key={feedback.id}
                 onClick={() => handleItemClick(index)}
               >
-                <h2
-                  style={{
-                    width: "25%",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                    padding: "2px 32px 2px 0",
-                    color: "var(--QMblue)",
-                  }}
-                >
-                  {feedback.title}
-                </h2>
-                <p
-                  style={{
-                    width: "50%",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                    padding: "2px 64px 2px 0",
-                    fontSize: "14px",
-                  }}
-                >
-                  {feedback.comment}
-                </p>
-                <div style={{ width: "25%", display: "flex", gap: "10px" }}>
-                  {/*<img src={feedback.profilePicture} alt="Profile" />*/}
-                  <div className="profile-pick"></div>
+                <h2 className="feedback-title">{feedback.title}</h2>
+                <p className="feedback-description">{feedback.comment}</p>
+                <div className="feedback-profile">
+                  <img
+                    className="profile-pick"
+                    src="profile.png"
+                    alt="profile"
+                  />
+
                   <div>
-                    <p>{feedback.anonymous === false ? "NAME" : "Anonymous"}</p>
+                    <p className="profile-name">
+                      {feedback.anonymous === false ? "Student" : "Anonymous"}
+                    </p>
                     <p>{shortDate(feedback.created_at)}</p>
                   </div>
                 </div>
@@ -147,7 +131,8 @@ const StudentFeedback = ({ supabase, showReplyBox = true }) => {
                   <div className="expanded-itemk">
                     <h1 id="expanded-item-titlek">{feedback.title}</h1>
                     <h2>
-                      by {feedback.anonymous === false ? "NAME" : "Anonymous"} -{" "}
+                      by{" "}
+                      {feedback.anonymous === false ? "Student" : "Anonymous"} -{" "}
                       {longDate(feedback.created_at)}
                     </h2>
                     <p style={{ margin: "2rem 0" }}>{feedback.comment}</p>

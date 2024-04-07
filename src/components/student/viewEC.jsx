@@ -20,7 +20,7 @@ const ViewEC = ({ supabase, user }) => {
       setECs(data);
     }
     getECs();
-  }, []);
+  }, [supabase]);
 
   const handleTabClick = (tab) => {
     setShowApplyEC(false);
@@ -37,38 +37,56 @@ const ViewEC = ({ supabase, user }) => {
     setShowAllECs(true);
   };
 
-  const handleApplyECClick = () => {
-    setShowApplyEC(true);
+  const handleButtonClick = () => {
+    setShowApplyEC(!showApplyEC);
   };
 
   const handleBackClick = () => {
     setShowApplyEC(false);
   };
 
+  const displayStatus = (status) => {
+    const statusMap = {
+      SUBMITTED: "Submitted",
+      IN_PROGRESS: "In Progress",
+      RESOLVED: "Resolved",
+      REJECTED: "Rejected",
+    };
+    return statusMap[status] || status;
+  };
+
   const renderECList = () => (
-    <table>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Description</th>
-          <th>Student ID</th>
-        </tr>
-      </thead>
-      <tbody>
-        {ECs.map((ec) => (
-          <tr key={ec.id} onClick={() => handleTitleClick(ec)}>
-            <td>{ec.title}</td>
-            <td>{ec.description}</td>
-            <td>{ec.Student_ID}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div className="entriesContainer">
+      <div className="entry-header">
+        <h3 id="title-h">Title</h3>
+        <h3 id="desc-h">Description</h3>
+        <h3 id="status-h">Status</h3>
+        <h3 id="startedBy-h">Created on</h3>
+      </div>
+
+      {ECs.map((ec) => (
+        <div key={ec.id} className="entry">
+          <h2 id="ec-title" onClick={() => handleTitleClick(ec)}>
+            {ec.title}
+          </h2>
+          <p id="desc">{ec.description}</p>
+          <p id="ec-status">{displayStatus(ec.status)}</p>
+          <div id="startedBy">
+            <p>
+              {new Date(ec.created_at).toLocaleDateString("en-US", {
+                day: "2-digit",
+                month: "long",
+                year: "numeric",
+              })}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
   );
 
   const renderApplyEC = () => (
     <div>
-      <button onClick={handleBackClick}>Back</button>
       <ApplyEC supabase={supabase} user={user} />
     </div>
   );
@@ -82,7 +100,6 @@ const ViewEC = ({ supabase, user }) => {
       case "Extenuating Circumstances":
         return (
           <div>
-            <button onClick={handleApplyECClick}>Create New EC</button>
             {showAllECs ? (
               renderECList()
             ) : (
@@ -111,25 +128,34 @@ const ViewEC = ({ supabase, user }) => {
 
   return (
     <div className="studentfeedback-container">
-      <div className="tab-container">
-        <button
-          onClick={() => handleTabClick("Extenuating Circumstances")}
-          className={activeTab === "Extenuating Circumstances" ? "active" : ""}
-        >
-          EC
-        </button>
-        <button
-          onClick={() => handleTabClick("Tickets")}
-          className={activeTab === "Tickets" ? "active" : ""}
-        >
-          Tickets
-        </button>
-        <button
-          onClick={() => handleTabClick("Feedback")}
-          className={activeTab === "Feedback" ? "active" : ""}
-        >
-          Feedback
-        </button>
+      <div className="wrapper">
+        <div className="tab-container">
+          <button
+            onClick={() => handleTabClick("Extenuating Circumstances")}
+            className={
+              activeTab === "Extenuating Circumstances" ? "active" : ""
+            }
+          >
+            EC
+          </button>
+          <button
+            onClick={() => handleTabClick("Tickets")}
+            className={activeTab === "Tickets" ? "active" : ""}
+          >
+            Tickets
+          </button>
+          <button
+            onClick={() => handleTabClick("Feedback")}
+            className={activeTab === "Feedback" ? "active" : ""}
+          >
+            Feedback
+          </button>
+        </div>
+        {activeTab === "Extenuating Circumstances" && (
+          <button onClick={handleButtonClick} className="apply-ec-button">
+            {showApplyEC ? "Back" : "Apply EC"}
+          </button>
+        )}
       </div>
       {renderContent()}
     </div>

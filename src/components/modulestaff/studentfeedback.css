@@ -1,5 +1,5 @@
 .studentfeedback-containerk {
-  width: 80vw;
+  width: 85vw;
   margin: 25px 15px;
   margin: 15px auto;
 }
@@ -42,6 +42,7 @@
   border-bottom: 3px solid var(--QMlightgrey);
   color: var(--QMblue);
   font-weight: 700;
+  font-size: 17px;
 }
 
 .started-by-textk {
@@ -93,4 +94,37 @@
   border-radius: 5px;
   border-color: var(--QMlightgrey);
   padding: 0.5rem;
+}
+
+.description-text {
+  margin-left: 19%;
+}
+
+.profile-name {
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.feedback-title {
+  width: 25%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 2px 32px 2px 0;
+  color: var(--QMblue);
+}
+
+.feedback-description {
+  width: 50%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 2px 64px 2px 0;
+  font-size: 15px;
+}
+
+.feedback-profile {
+  width: 25%;
+  display: flex;
+  gap: 10px;
 }

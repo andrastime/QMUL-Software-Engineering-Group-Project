@@ -1,21 +1,47 @@
-import React from "react"
-import './ECdetails.css'
+import React from "react";
+import "./ECdetails.css";
 
-export default function ECdetails(props){
-    
+export default function ECdetails(props) {
+  const handleClose = () => {
+    props.onClose();
+  };
 
-    const handleClose = () => {
-        props.onClose(); // Call the onClose function passed from the parent
-      };
+  const longDate = (date) => {
+    const newDate = new Date(date);
+    return newDate.toLocaleString("en-US", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    });
+  };
 
-    return(
-        
-        <div className="testDiv">
-            <h1> {props.title}</h1>
-            <p> {props.description} </p>
-            <p> Status: {props.status} </p>
-            <img src = "evidence.jpg" alt = "evidence"></img>
-            <button type = "button" onClick ={handleClose}> Close EC </button>
-        </div>
-    )
+  return (
+    <div className="testDiv">
+      <h1 className="detail-title">{props.title}</h1>
+      <div className="detail-desc">
+        <h2>Description:</h2>
+        <p>{props.description} </p>
+      </div>
+      <div className="detail-evidence">
+        <h2>Evidence: </h2>
+        <p>{props.evidence}</p>
+      </div>
+
+      <div className="detail-date">
+        <h2>Date: </h2>
+        <p>{longDate(props.created_at)}</p>
+      </div>
+      <div className="detail-status">
+        <h2>Status: </h2>
+        <p>{props.status} </p>
+        <button className="detail-button" type="button" onClick={handleClose}>
+          Close
+        </button>
+      </div>
+    </div>
+  );
 }
