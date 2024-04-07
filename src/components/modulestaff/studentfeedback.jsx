@@ -15,11 +15,12 @@ const StudentFeedback = ({ supabase, showReplyBox = true }) => {
       if (error) {
         console.error("Error fetching feedback data:", error);
       } else {
+        console.log("Feedback data:", data);
         setFeedbackData(data);
       }
     };
     fetchFeedbackData();
-  });
+  }, [supabase]);
 
   const [expandedItem, setExpandedItem] = useState(null);
 
