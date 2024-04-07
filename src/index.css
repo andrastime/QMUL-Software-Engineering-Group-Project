@@ -53,7 +53,7 @@ body {
   width: 30px;
   height: 40px;
   margin-top: 0.75%;
-  margin-right: 90%;
+  margin-right: 85%;
   margin-left: 1%;
 }
 
@@ -178,4 +178,12 @@ body {
 
 .login-button:hover {
   background-color: #0056b3;
+}
+
+.FAQ {
+  color: white;
+  margin-top: 1.5%;
+  font-size: 20px;
+  font-weight: bold;
+  margin-right: 2%;
 }
