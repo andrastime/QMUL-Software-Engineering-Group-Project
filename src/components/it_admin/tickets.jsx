@@ -16,27 +16,42 @@ const TicketsMenu = ({
   const [activeTab, setActiveTab] = useState("Tickets");
   const [selectedEntry, setSelectedEntry] = useState(null);
   const [showAllECs, setShowAllECs] = useState(true);
+  const [expandedTicket, setExpandedTicket] = useState(null);
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
 
   useEffect(() => {
+    async function getECs() {
+      const { data } = await supabase
+        .from("extenuating_circumstances")
+        .select();
+      setECs(data);
+    }
     getECs();
-  }, []);
+  }, [supabase]);
 
   useEffect(() => {
     getTickets(currentClass, currentStatus, currentSearch);
   }, [currentClass, currentStatus, currentSearch]);
 
-  async function getECs() {
-    const { data } = await supabase.from("extenuating_circumstances").select();
-    setECs(data);
-  }
-
   const handleTitleClick = (entry) => {
     setSelectedEntry(entry);
     setShowAllECs(false);
+  };
+
+  const longDate = (date) => {
+    const newDate = new Date(date);
+    return newDate.toLocaleString("en-US", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    });
   };
 
   const handleCloseEC = () => {
@@ -44,11 +59,15 @@ const TicketsMenu = ({
     setShowAllECs(true);
   };
 
+  const handleTicketClick = (id) => {
+    setExpandedTicket(expandedTicket === id ? null : id);
+  };
+
   const getTickets = (classParam, statusParam, searchParam) => {
     setData([]);
     supabase
       .from("ticket")
-      .select("title, description, ticket_class, status, date_posted, id")
+      .select("title, description, ticket_class, status, created_at, id")
       .like("status", statusParam)
       .like("ticket_class", classParam)
       .or(
@@ -96,6 +115,35 @@ const TicketsMenu = ({
   };
 
   const renderContent = () => {
+    // Mapping functions
+    const displayType = (type) => {
+      const typeMap = {
+        LAB: "Lab",
+        SERVICE: "Service",
+        SYSTEM: "System",
+      };
+      return typeMap[type] || type;
+    };
+
+    const displayECStatus = (status) => {
+      const ECstatusMap = {
+        SUBMITTED: "Submitted",
+        IN_PROGRESS: "In Progress",
+        RESOLVED: "Resolved",
+        REJECTED: "Rejected",
+      };
+      return ECstatusMap[status] || status;
+    };
+
+    const displayStatus = (status) => {
+      const statusMap = {
+        SUBMITTED: "Submitted",
+        IN_PROGRESS: "In Progress",
+        RESOLVED: "Resolved",
+      };
+      return statusMap[status] || status;
+    };
+
     switch (activeTab) {
       case "Tickets":
         return (
@@ -152,84 +200,79 @@ const TicketsMenu = ({
             </div>
             <div className="ticket-header-container ">
               <h3 style={{ width: "20%" }}>Ticket</h3>
-              <h3 style={{ width: "35%" }}>Description</h3>
+              <h3 style={{ width: "38%" }}>Description</h3>
               <h3 style={{ width: "10%" }}>Type</h3>
               <h3 style={{ width: "10%" }}>Status</h3>
-              {showStartedBy && <h3 style={{ width: "25%" }}>Started by</h3>}
+              {showStartedBy && <h3 style={{ width: "22%" }}>Started by</h3>}
             </div>
 
             <div className="ticket-container">
               {currentData.map((ticket, index) => (
-                <div
-                  id={ticket.id}
-                  className={`ticket-item ${index % 2 === 0 ? "even" : ""}`}
-                  key={index}
-                  style={{
-                    alignContent: "center",
-                    display: "flex",
-                    flexDirection: "row",
-                  }}
-                >
-                  <h2
-                    className="ticket-title"
-                    style={{ width: "20%", textOverflow: "ellipses" }}
-                  >
-                    {ticket.title}
-                  </h2>
-                  <p style={{ width: "35%", textOverflow: "ellipses" }}>
-                    {ticket.description}
-                  </p>
-                  <p style={{ width: "10%" }}>{ticket.ticket_class} </p>
-                  <p className="ticket-status" style={{ width: "10%" }}>
-                    {ticket.status}{" "}
-                  </p>
+                <React.Fragment key={ticket.id}>
                   <div
-                    className="started-button-group"
-                    style={{
-                      width: "25%",
-                      display: "flex",
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                    }}
+                    id={ticket.id}
+                    className={`ticket-item ${index % 2 === 0 ? "even" : ""} ${
+                      expandedTicket === ticket.id ? "expanded" : ""
+                    }`}
+                    onClick={() => handleTicketClick(ticket.id)}
                   >
-                    {showStartedBy && (
-                      <div className="started-by">
-                        <img src="profile.png" alt="profile" />
-                        <div
-                          style={{
-                            display: "flex",
-                            "flex-direction": "column",
-                          }}
-                        >
-                          <p style={{ "font-weight": "bold" }}>QM Student</p>
-                          <p>
-                            {new Date(ticket.date_posted).toLocaleDateString(
-                              "en-US",
-                              { day: "2-digit", month: "long" }
-                            )}
-                          </p>
+                    <h2 className="ticket-title">{ticket.title}</h2>
+                    <p className="ticket-description">{ticket.description}</p>
+                    <p className="ticket-typestatus">
+                      {displayType(ticket.ticket_class)}
+                    </p>
+                    <p className="ticket-typestatus">
+                      {displayStatus(ticket.status)}
+                    </p>
+                    <div className="started-button-group">
+                      {showStartedBy && (
+                        <div className="started-by">
+                          <img src="profile.png" alt="profile" />
+                          <div className="startedBy-wrapper">
+                            <p style={{ "font-weight": "bold" }}>Student</p>
+                            <p>
+                              {new Date(ticket.created_at).toLocaleDateString(
+                                "en-US",
+                                {
+                                  day: "2-digit",
+                                  month: "long",
+                                  year: "numeric",
+                                }
+                              )}
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    )}
-                    {showOptions && (
-                      <button
-                        onClick={(e) => {
-                          overlayOn(e);
-                        }}
-                        onMouseLeave={(e) => {
-                          e.target.style.background =
-                            "rgba(190, 190, 190, 0.50)";
-                        }}
-                        onMouseOver={(e) =>
-                        (e.target.style.background =
-                          "rgba(190, 190, 190, 0.80)")
-                        }
-                      >
-                        <img src="ellipses.png" alt="ellipses" />
-                      </button>
-                    )}
+                      )}
+                      {showOptions && (
+                        <button
+                          onClick={(e) => {
+                            overlayOn(e);
+                          }}
+                          onMouseLeave={(e) => {
+                            e.target.style.background =
+                              "rgba(190, 190, 190, 0.50)";
+                          }}
+                          onMouseOver={(e) =>
+                            (e.target.style.background =
+                              "rgba(190, 190, 190, 0.80)")
+                          }
+                        >
+                          <img src="ellipses.png" alt="ellipses" />
+                        </button>
+                      )}
+                    </div>
                   </div>
-                </div>
+                  {expandedTicket === ticket.id && (
+                    <div className="expanded-itemk">
+                      <h1 id="expanded-item-titlek">{ticket.title}</h1>
+                      <h2>
+                        by {"Student - "}
+                        {longDate(ticket.created_at)}
+                      </h2>
+                      <p style={{ margin: "2rem 0" }}>{ticket.description}</p>
+                    </div>
+                  )}
+                </React.Fragment>
               ))}
             </div>
           </div>
@@ -239,22 +282,42 @@ const TicketsMenu = ({
         return (
           <div className="entriesContainer">
             <div className="entry-header">
-              <h3>ID</h3>
-              <h3>Created At</h3>
-              <h3>Student ID</h3>
               <h3 id="title-h">Title</h3>
               <h3 id="desc-h">Description</h3>
+              <h3 id="status-h">Status</h3>
+              <h3 id="startedBy-h">Started by</h3>
             </div>
             {showAllECs ? (
               ECs.map((row) => (
                 <div key={row.id} className="entry">
-                  <p>{row.id}</p>
-                  <p>{row.created_at}</p>
-                  <p>{row.Student_ID}</p>
-                  <button id="ec-button" onClick={() => handleTitleClick(row)}>
-                    <h2 id="title">{row.title}</h2>
-                  </button>
+                  <h2 id="ec-title" onClick={() => handleTitleClick(row)}>
+                    {row.title}
+                  </h2>
                   <p id="desc">{row.description}</p>
+                  <p id="ec-status">{displayECStatus(row.status)}</p>
+                  <div id="startedBy">
+                    <img src="profile.png" alt="profile" />
+                    <div>
+                      <p id="studentid">{row.Student_ID}</p>
+                      <p>
+                        {new Date(row.created_at).toLocaleDateString("en-US", {
+                          day: "2-digit",
+                          month: "long",
+                          year: "numeric",
+                        })}
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    onMouseLeave={(e) => {
+                      e.target.style.background = "rgba(190, 190, 190, 0.50)";
+                    }}
+                    onMouseOver={(e) =>
+                      (e.target.style.background = "rgba(190, 190, 190, 0.80)")
+                    }
+                  >
+                    <img src="ellipses.png" alt="ellipses" />
+                  </button>
                 </div>
               ))
             ) : (
@@ -278,18 +341,18 @@ const TicketsMenu = ({
       {showTabs && (
         <div className="tab-container">
           <button
+            className={activeTab === "Tickets" ? "active" : ""}
+            onClick={() => handleTabClick("Tickets")}
+          >
+            Tickets
+          </button>
+          <button
             className={
               activeTab === "Extenuating Circumstances" ? "active" : ""
             }
             onClick={() => handleTabClick("Extenuating Circumstances")}
           >
             EC
-          </button>
-          <button
-            className={activeTab === "Tickets" ? "active" : ""}
-            onClick={() => handleTabClick("Tickets")}
-          >
-            Tickets
           </button>
         </div>
       )}

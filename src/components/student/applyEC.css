@@ -55,7 +55,6 @@
   cursor: pointer;
   font-size: 0.8em;
   margin-top: 1rem;
-  margin-left: 63rem;
   width: 10%;
 }
 
@@ -75,4 +74,10 @@
   border-radius: 10px;
   font-size: 1.1em;
   margin-top: 10px;
+}
+
+.button-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }

@@ -107,7 +107,10 @@ function ApplyEC({ supabase, user }) {
             required
           />
         </label>
-        <button type="submit">Submit</button>
+        <div className="button-wrapper">
+          <button>Upload files</button>
+          <button type="submit">Submit</button>
+        </div>
       </form>
       {submissionStatus === "error" && (
         <div className="error-message">
