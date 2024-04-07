@@ -1,0 +1,24 @@
+.faq-item {
+    display: flex;
+    flex-direction: column;
+    padding: 14px 16px;
+    background-color: white;
+    width: 45vw;
+    margin: 0 auto;
+    line-height: normal;
+}
+
+.faq-item-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: var(--QMblue);
+}
+
+.faq-item-description {
+    font-size: 1rem;
+    color: #393f49;
+    font-weight: 400;
+    line-height: 1.38889;
+    margin-bottom: 15px;
+}
