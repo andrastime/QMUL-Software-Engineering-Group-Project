@@ -41,10 +41,6 @@ const ViewEC = ({ supabase, user }) => {
     setShowApplyEC(!showApplyEC);
   };
 
-  const handleBackClick = () => {
-    setShowApplyEC(false);
-  };
-
   const displayStatus = (status) => {
     const statusMap = {
       SUBMITTED: "Submitted",
