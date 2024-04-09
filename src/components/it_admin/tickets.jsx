@@ -204,14 +204,14 @@ const TicketsMenu = ({
                 placeholder="Search Tickets"
               />
             </div>
-            <div className="ticket-header-container" style={{ gap: "4%" }}>
-              <div>
-                <h3 style={{ width: "27.5%" }}>Ticket</h3>
-                <h3 style={{ width: "51.5%" }}>Description</h3>
-                <h3 style={{ width: "11.5%" }}>Type</h3>
-                <h3 style={{ width: "9.5%" }}>Status</h3>
+            <div className="ticket-header-container" style={{ gap: "" }}>
+              <div style={{width: `${!showStartedBy ? "100%" : ""}`}}>
+                <h3 style={{paddingRight: "32px"}} className="tkt-title">Ticket</h3>
+                <h3 className="tkt-desc">Description</h3>
+                <h3 style={{textAlign: "center" }} className="tkt-type">Type</h3>
+                <h3 style={{textAlign: "center" }} className="tkt-status">Status</h3>
               </div>
-              {showStartedBy && <h3 style={{ width: "10%" }}>Started by</h3>}
+              {showStartedBy && <h3 style={{ width: "25%", paddingLeft: `${ "3%"}` }}>Started by</h3>}
             </div>
 
             <div className="ticket-container">
@@ -223,17 +223,17 @@ const TicketsMenu = ({
                       expandedTicket === ticket.id ? "expanded" : ""
                     }`}
                   >
-                    <div onClick={() => handleTicketClick(ticket.id)}>
-                      <h2 className="ticket-title">{ticket.title}</h2>
-                      <p className="ticket-description">{ticket.description}</p>
-                      <p className="ticket-typestatus">
+                    <div className={`a ${!showStartedBy ? "width100" : ""}`} onClick={() => handleTicketClick(ticket.id)}>
+                      <h2 className="ticket-title tkt-title" >{ticket.title}</h2>
+                      <p className="ticket-description tkt-desc" >{ticket.description}</p>
+                      <p className="ticket-typestatus tkt-type" >
                         {displayType(ticket.ticket_class)}
                       </p>
-                      <p className="ticket-typestatus ticket-status">
+                      <p className="ticket-typestatus ticket-status tkt-status" >
                         {displayStatus(ticket.status)}
                       </p>
                     </div>
-                    <div className="started-button-group">
+                    <div className={`started-button-group ${!showStartedBy ? "width0" : ""}`}>
                       {showStartedBy && (
                         <div className="started-by">
                           <img src="profile.png" alt="profile" />
