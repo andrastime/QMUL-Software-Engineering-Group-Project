@@ -49,14 +49,27 @@
   flex-direction: column;
 }
 
-.ticket-item {
+.ticket-item{
   display: flex;
   justify-content: flex-start;
   padding: 14px 16px;
-  background-color: white;
   align-items: center;
   max-height: 80px;
   text-overflow: ellipsis;
+}
+
+.ticket-item > div{
+  display: flex;
+  flex-direction: row;
+  width: 65%;
+  height: 100%;
+}
+
+.ticket-header-container > div{
+  display: flex;
+  flex-direction: row;
+  width: 65%;
+  height: 100%;
 }
 
 .ticket-item.even {
@@ -102,7 +115,7 @@
 }
 
 .ticket-title {
-  width: 20%;
+  width: 30.77%;
   overflow: hidden;
   text-overflow: ellipsis;
   color: var(--QMblue);
@@ -111,7 +124,7 @@
 }
 
 .ticket-description {
-  width: 35%;
+  width: 53.85%;
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 15px;
@@ -119,7 +132,7 @@
 }
 
 .ticket-typestatus {
-  width: 10%;
+  width: 15.38%;
   text-align: center;
 }
 
@@ -206,7 +219,7 @@ b {
   display: flex;
   flex-direction: row;
   background-color: white;
-  border-bottom: 5px solid var(--QMlightgrey);
+  border-bottom: 3px solid var(--QMlightgrey);
   color: var(--QMblue);
   font-weight: bold;
   padding: 22px 16px;
