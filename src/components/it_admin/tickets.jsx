@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./tickets.css";
 import ECdetails from "../student/ECdetails";
+import TicketsOverlay from "./ticket-change-overlay";
 
 const TicketsMenu = ({
   supabase,
@@ -17,6 +18,10 @@ const TicketsMenu = ({
   const [selectedEntry, setSelectedEntry] = useState(null);
   const [showAllECs, setShowAllECs] = useState(true);
   const [expandedTicket, setExpandedTicket] = useState(null);
+  const [showOverlay, setShowOverlay] = useState(false);
+  const [selectedTicketId, setSelectedTicketId] = useState(null);
+  const [selectedTicketTitle, setSelectedTicketTitle] = useState("");
+  const [selectedTicketStatus, setSelectedTicketStatus] = useState("");
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -32,9 +37,30 @@ const TicketsMenu = ({
     getECs();
   }, [supabase]);
 
+  const getTickets = useCallback(
+    async (classParam, statusParam, searchParam) => {
+      setData([]);
+      const { data, error } = await supabase
+        .from("ticket")
+        .select("title, description, ticket_class, status, created_at, id")
+        .like("status", statusParam)
+        .like("ticket_class", classParam)
+        .or(
+          `title.ilike.%${searchParam}%`,
+          `description.ilike.%${searchParam}%`
+        );
+      if (error) {
+        console.error(error);
+        setData([]);
+      } else {
+        setData(data);
+      }
+    },
+    [supabase]
+  );
   useEffect(() => {
     getTickets(currentClass, currentStatus, currentSearch);
-  }, [currentClass, currentStatus, currentSearch]);
+  }, [currentClass, currentStatus, currentSearch, getTickets]);
 
   const handleTitleClick = (entry) => {
     setSelectedEntry(entry);
@@ -63,34 +89,14 @@ const TicketsMenu = ({
     setExpandedTicket(expandedTicket === id ? null : id);
   };
 
-  const getTickets = (classParam, statusParam, searchParam) => {
-    setData([]);
-    supabase
-      .from("ticket")
-      .select("title, description, ticket_class, status, created_at, id")
-      .like("status", statusParam)
-      .like("ticket_class", classParam)
-      .or(
-        "title.ilike.%" + searchParam + "%",
-        "description.ilike.%" + searchParam + "%"
-      )
-      .then((data) => {
-        console.log(data.data);
-        setData(data.data);
-      })
-      .catch((error) => {
-        console.log(error);
-        setData([]);
-      });
-  };
-
-  const overlayOn = (e) => {
-    if (e.target.nodeName === "IMG") {
-      e.target = e.target.parentElement;
+  const overlayOn = (id) => {
+    const ticket = currentData.find((ticket) => ticket.id === id);
+    if (ticket) {
+      setSelectedTicketId(id);
+      setSelectedTicketTitle(ticket.title);
+      setSelectedTicketStatus(ticket.status);
+      setShowOverlay(true);
     }
-    e.target.parentElement.parentElement.classList.add("updating");
-    console.log(e.target.parentElement.parentElement.classList);
-    document.getElementById("overlay").style.display = "block";
   };
 
   const changeClass = (e) => {
@@ -198,14 +204,14 @@ const TicketsMenu = ({
                 placeholder="Search Tickets"
               />
             </div>
-            <div className="ticket-header-container" style={{"gap": "4%"}}>
+            <div className="ticket-header-container" style={{ gap: "4%" }}>
               <div>
-                <h3 style={{ width: "30.77%" }}>Ticket</h3>
-                <h3 style={{ width: "53.85%" }}>Description</h3>
-                <h3 style={{ width: "15.38%" }}>Type</h3>
-                <h3 style={{ width: "12.4%" }}>Status</h3>
+                <h3 style={{ width: "27.5%" }}>Ticket</h3>
+                <h3 style={{ width: "51.5%" }}>Description</h3>
+                <h3 style={{ width: "11.5%" }}>Type</h3>
+                <h3 style={{ width: "9.5%" }}>Status</h3>
               </div>
-              {showStartedBy && <h3 style={{ width: "22%" }}>Started by</h3>}
+              {showStartedBy && <h3 style={{ width: "10%" }}>Started by</h3>}
             </div>
 
             <div className="ticket-container">
@@ -248,9 +254,7 @@ const TicketsMenu = ({
                       )}
                       {showOptions && (
                         <button
-                          onClick={(e) => {
-                            overlayOn(e);
-                          }}
+                          onClick={() => overlayOn(ticket.id)}
                           onMouseLeave={(e) => {
                             e.target.style.background =
                               "rgba(190, 190, 190, 0.50)";
@@ -360,6 +364,18 @@ const TicketsMenu = ({
         </div>
       )}
       {renderContent()}
+      {showOverlay && (
+        <TicketsOverlay
+          supabase={supabase}
+          ticketID={selectedTicketId}
+          onClose={() => setShowOverlay(false)}
+          ticketTitle={selectedTicketTitle}
+          currentStatus={selectedTicketStatus}
+          refreshTickets={() =>
+            getTickets(currentClass, currentStatus, currentSearch)
+          }
+        />
+      )}
     </div>
   );
 };

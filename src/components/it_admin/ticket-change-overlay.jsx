@@ -1,77 +1,58 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./tickets.css";
 
-const TicketsOverlay = ( ) => {
-  const divRef = useRef(null);
-
-  const [title, setTitle] = useState("");
-  const [status, setStatus] = useState("");
-  const [id, setID] = useState("");
-
-  useEffect(() => {
-    const handleStyleChange = () => {
-      if (divRef.current.style.display === "block") {
-        console.log(window.session); // Console log supabase client for debug
-        let elem = document.getElementsByClassName("updating")[0];
-        setTitle(elem.getElementsByClassName("ticket-title")[0].innerHTML);
-        setStatus(elem.getElementsByClassName("ticket-status")[0].innerHTML);
-        setID(elem.id);
-      }
-    };
-
-    const observer = new MutationObserver(handleStyleChange);
-    const config = { attributes: true, attributeFilter: ["style"] };
-    observer.observe(divRef.current, config);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
+const TicketsOverlay = ({
+  supabase,
+  ticketID,
+  onClose,
+  ticketTitle,
+  currentStatus,
+  refreshTickets,
+}) => {
+  const [status, setStatus] = useState(currentStatus);
 
   const overlayOff = () => {
-    document.getElementById("overlay").style.display = "none";
-    document.getElementsByClassName("updating")[0].classList.remove("updating");
+    if (onClose) onClose();
   };
 
   const submit = async () => {
-    let newVal = document.getElementById("status-select").value;
-    const { error } = await window.session
+    const { error } = await supabase
       .from("ticket")
-      .update({ status: newVal })
-      .eq("id", id);
+      .update({ status })
+      .eq("id", ticketID);
 
-    console.log(error);
-    document
-      .getElementsByClassName("updating")[0]
-      .getElementsByClassName("ticket-status")[0].innerHTML = displayStatus(newVal);
-    overlayOff();
-  };
-
-  const displayStatus = (status) => {
-    const statusMap = {
-      SUBMITTED: "Submitted",
-      IN_PROGRESS: "In Progress",
-      RESOLVED: "Resolved",
-    };
-    return statusMap[status] || status;
+    if (error) {
+      console.error("Update error:", error);
+    } else {
+      refreshTickets();
+      overlayOff();
+    }
   };
 
   return (
-    <div ref={divRef} id="overlay">
-      <div id="overlay-main-pane">
+    <div
+      id="overlay"
+      className="overlay-container"
+      style={{ display: "block" }}
+    >
+      <div id="overlay-main-pane" className="overlay-content">
         <h2>Update Ticket Status</h2>
-        <div>
+        <div className="overlay-details">
           <p>
-            <b>Title:</b> {title}
+            <b>Title:</b> {ticketTitle}
           </p>
           <p>
-            <b>Current Status:</b> {status}
+            <b>Current Status:</b> {displayStatus(currentStatus)}
           </p>
         </div>
 
-        <div>
+        <div className="overlay-status-select">
           <h3>New Status</h3>
-          <select id="status-select">
+          <select
+            id="status-select"
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+          >
             <option value="SUBMITTED">Submitted</option>
             <option value="IN_PROGRESS">In Progress</option>
             <option value="RESOLVED">Resolved</option>
@@ -87,6 +68,16 @@ const TicketsOverlay = ( ) => {
       </div>
     </div>
   );
+};
+
+// Helper function to display the status text
+const displayStatus = (status) => {
+  const statusMap = {
+    SUBMITTED: "Submitted",
+    IN_PROGRESS: "In Progress",
+    RESOLVED: "Resolved",
+  };
+  return statusMap[status] || status;
 };
 
 export default TicketsOverlay;

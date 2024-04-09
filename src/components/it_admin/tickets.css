@@ -49,7 +49,7 @@
   flex-direction: column;
 }
 
-.ticket-item{
+.ticket-item {
   display: flex;
   justify-content: flex-start;
   padding: 14px 16px;
@@ -58,17 +58,17 @@
   text-overflow: ellipsis;
 }
 
-.ticket-item > div{
+.ticket-item > div {
   display: flex;
   flex-direction: row;
-  width: 65%;
+  width: 75%;
   height: 100%;
 }
 
-.ticket-header-container > div{
+.ticket-header-container > div {
   display: flex;
   flex-direction: row;
-  width: 65%;
+  width: 74%;
   height: 100%;
 }
 
@@ -182,8 +182,9 @@
 
 #overlay-main-pane #buttons {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 40px;
+  padding-top: 10px;
 }
 
 #overlay-main-pane {
@@ -264,27 +265,33 @@ b {
 
 #title-h,
 #ec-title {
-  margin-left: 5px;
-  width: 25%;
+  width: 22%;
 }
 
-#desc-h,
+#title-h {
+  margin-left: 1%;
+}
+
 #desc {
-  width: 45%;
+  width: 48%;
 }
 
 #desc-h {
-  margin-right: 2%;
+  width: 45%;
 }
 
-#status-h,
+#status-h {
+  width: 7%;
+}
+
 #ec-status {
+  margin-top: 0.75%;
   width: 10%;
 }
 
 #startedBy-h {
-  width: 20%;
-  margin-right: 1%;
+  width: 23%;
+  margin-left: 3%;
 }
 
 #studentid {
@@ -295,6 +302,7 @@ b {
   width: 20%;
   display: flex;
   flex-direction: row;
+  margin-top: 0.75%;
 }
 
 #startedBy > img {

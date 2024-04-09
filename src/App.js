@@ -1,22 +1,20 @@
+import React, { useState, useEffect, createContext } from "react";
 import "./index.css";
-import { useState, useEffect } from "react";
-import { createClient } from "@supabase/supabase-js";
 import { System } from "./system";
+import { supabase } from "./supabaseClient";
 
-const supabase = createClient(
-  "https://dswpmnhkvgpxqapgddfe.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRzd3BtbmhrdmdweHFhcGdkZGZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTA0MjYzNTgsImV4cCI6MjAyNjAwMjM1OH0.IBBT3bh87_nDHckwlR434DuHI1UvcoVypfcJH90s4eA"
-);
+// Create a context for the session to be accessible by other components
+export const SessionContext = createContext(null);
 
 export default function App() {
   const [session, setSession] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // Effect for handling the session state
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
-      window.session = session;
     });
 
     const {
@@ -25,9 +23,11 @@ export default function App() {
       setSession(session);
     });
 
+    // Cleanup subscription on unmount
     return () => subscription.unsubscribe();
   }, []);
 
+  // Handle login form submission
   const handleLogin = async (e) => {
     e.preventDefault();
     const { error } = await supabase.auth.signInWithPassword({
@@ -37,6 +37,7 @@ export default function App() {
     if (error) alert(error.message);
   };
 
+  // If there is no session, show the login form
   if (!session) {
     return (
       <div className="login-container">
@@ -66,6 +67,10 @@ export default function App() {
       </div>
     );
   } else {
-    return <System />;
+    return (
+      <SessionContext.Provider value={session}>
+        <System />
+      </SessionContext.Provider>
+    );
   }
 }

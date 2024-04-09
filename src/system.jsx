@@ -24,7 +24,7 @@ export const System = () => {
       setUser(session?.user || null);
       updateRole(session?.user?.email);
     });
-  }, [supabase]);
+  }, []);
 
   const updateRole = (email) => {
     let currentRole = "Student";
