@@ -88,8 +88,8 @@ const TicketsMenu = ({
     if (e.target.nodeName === "IMG") {
       e.target = e.target.parentElement;
     }
-
     e.target.parentElement.parentElement.classList.add("updating");
+    console.log(e.target.parentElement.parentElement.classList);
     document.getElementById("overlay").style.display = "block";
   };
 
@@ -198,11 +198,13 @@ const TicketsMenu = ({
                 placeholder="Search Tickets"
               />
             </div>
-            <div className="ticket-header-container ">
-              <h3 style={{ width: "20%" }}>Ticket</h3>
-              <h3 style={{ width: "38%" }}>Description</h3>
-              <h3 style={{ width: "10%" }}>Type</h3>
-              <h3 style={{ width: "10%" }}>Status</h3>
+            <div className="ticket-header-container" style={{"gap": "4%"}}>
+              <div>
+                <h3 style={{ width: "30.77%" }}>Ticket</h3>
+                <h3 style={{ width: "53.85%" }}>Description</h3>
+                <h3 style={{ width: "15.38%" }}>Type</h3>
+                <h3 style={{ width: "12.4%" }}>Status</h3>
+              </div>
               {showStartedBy && <h3 style={{ width: "22%" }}>Started by</h3>}
             </div>
 
@@ -214,16 +216,17 @@ const TicketsMenu = ({
                     className={`ticket-item ${index % 2 === 0 ? "even" : ""} ${
                       expandedTicket === ticket.id ? "expanded" : ""
                     }`}
-                    onClick={() => handleTicketClick(ticket.id)}
                   >
-                    <h2 className="ticket-title">{ticket.title}</h2>
-                    <p className="ticket-description">{ticket.description}</p>
-                    <p className="ticket-typestatus">
-                      {displayType(ticket.ticket_class)}
-                    </p>
-                    <p className="ticket-typestatus">
-                      {displayStatus(ticket.status)}
-                    </p>
+                    <div onClick={() => handleTicketClick(ticket.id)}>
+                      <h2 className="ticket-title">{ticket.title}</h2>
+                      <p className="ticket-description">{ticket.description}</p>
+                      <p className="ticket-typestatus">
+                        {displayType(ticket.ticket_class)}
+                      </p>
+                      <p className="ticket-typestatus ticket-status">
+                        {displayStatus(ticket.status)}
+                      </p>
+                    </div>
                     <div className="started-button-group">
                       {showStartedBy && (
                         <div className="started-by">
