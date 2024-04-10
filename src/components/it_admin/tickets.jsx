@@ -292,7 +292,7 @@ const TicketsMenu = ({
               <h3 id="title-h">Title</h3>
               <h3 id="desc-h">Description</h3>
               <h3 id="status-h">Status</h3>
-              <h3 id="startedBy-h">Started by</h3>
+              <h3 id="startedBy-h" style={{marginRight: "40px"}}>Started by</h3>
             </div>
             {showAllECs ? (
               ECs.map((row) => (

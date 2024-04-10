@@ -293,7 +293,7 @@ b {
 }
 
 #title-h {
-  margin-left: 1%;
+  padding: 0 10px;
 }
 
 #desc {
@@ -301,11 +301,11 @@ b {
 }
 
 #desc-h {
-  width: 45%;
+  width: 48%;
 }
 
 #status-h {
-  width: 7%;
+  width: 10%;
 }
 
 #ec-status {
@@ -314,8 +314,7 @@ b {
 }
 
 #startedBy-h {
-  width: 23%;
-  margin-left: 3%;
+  width: 20%;
 }
 
 #studentid {
