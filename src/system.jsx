@@ -96,19 +96,23 @@ export const System = () => {
       <header className="dashboard-header">
         <h1 className="user-dashboard">{role} Dashboard</h1>
         <form className="search-form">
-          <label htmlFor="search-option" className="search-label">
-            Search option
-          </label>
-          <select id="search-option" className="search-select">
-            <option value="service">search via service</option>
-            <option value="service">option1</option>
-            <option value="service">option2</option>
-            <option value="service">option3</option>
-          </select>
-          <button type="submit" className="search-button">
-            <img src="/search-icon.svg" alt="Search" />
-          </button>
-          <input type="text" className="search-input" />
+          <div className="search-wrapper">
+            <label htmlFor="search-option" className="search-label">
+              Search option
+            </label>
+            <select id="search-option" className="search-select">
+              <option value="service">search via service</option>
+              <option value="service">option1</option>
+              <option value="service">option2</option>
+              <option value="service">option3</option>
+            </select>
+            <div className="searchbar">
+              <button type="submit" className="search-button">
+                <img src="/search-icon.svg" alt="Search" />
+              </button>
+              <input type="text" className="search-input" />
+            </div>
+          </div>
 
           <button className="ticket-btn" onClick={handleCreateTicket}>
             {showCreateTicket ? "Back" : "Create Ticket"}

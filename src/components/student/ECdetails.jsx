@@ -30,14 +30,15 @@ export default function ECdetails(props) {
         <h2>Evidence: </h2>
         <p>{props.evidence}</p>
       </div>
-
       <div className="detail-date">
-        <h2>Date: </h2>
+        <h2>Date:</h2>
         <p>{longDate(props.created_at)}</p>
       </div>
       <div className="detail-status">
-        <h2>Status: </h2>
-        <p>{props.status} </p>
+        <div>
+          <h2>Status: </h2>
+          <p>{props.status} </p>
+        </div>
         <button className="detail-button" type="button" onClick={handleClose}>
           Close
         </button>
