@@ -63,6 +63,10 @@
   flex-direction: row;
 }
 
+.detail-status {
+  justify-content: space-between;
+}
+
 .detail-evidence,
 .detail-desc {
   font-size: 20px;
@@ -75,5 +79,4 @@
   color: white;
   padding: 1%;
   border-radius: 10px;
-  margin-left: 62rem;
 }
