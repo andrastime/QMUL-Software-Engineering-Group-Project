@@ -31,7 +31,8 @@ const TicketsMenu = ({
     async function getECs() {
       const { data } = await supabase
         .from("extenuating_circumstances")
-        .select();
+        .select()
+        .order("created_at", { ascending: false });
       setECs(data);
     }
     getECs();
@@ -48,7 +49,8 @@ const TicketsMenu = ({
         .or(
           `title.ilike.%${searchParam}%`,
           `description.ilike.%${searchParam}%`
-        );
+        )
+        .order("created_at", { ascending: false });
       if (error) {
         console.error(error);
         setData([]);
@@ -311,7 +313,9 @@ const TicketsMenu = ({
               <h3 id="title-h">Title</h3>
               <h3 id="desc-h">Description</h3>
               <h3 id="status-h">Status</h3>
-              <h3 id="startedBy-h" style={{marginRight: "40px"}}>Started by</h3>
+              <h3 id="startedBy-h" style={{ marginRight: "40px" }}>
+                Started by
+              </h3>
             </div>
             {showAllECs ? (
               ECs.map((row) => (

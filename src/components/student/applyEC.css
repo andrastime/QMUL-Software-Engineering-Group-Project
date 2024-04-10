@@ -81,3 +81,7 @@
   flex-direction: row;
   justify-content: space-between;
 }
+
+#file-upload {
+  border-radius: 5px;
+}

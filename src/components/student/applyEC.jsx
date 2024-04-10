@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./applyEC.css";
 
-function ApplyEC({ supabase, user }) {
+function ApplyEC({ supabase, user, onECSubmit }) {
   const [formData, setFormData] = useState({
     Student_ID: "",
     title: "",
@@ -10,6 +10,7 @@ function ApplyEC({ supabase, user }) {
     status: "SUBMITTED",
   });
 
+  const [file, setFile] = useState(null);
   const [submissionStatus, setSubmissionStatus] = useState(null);
 
   const handleChange = (e) => {
@@ -20,13 +21,32 @@ function ApplyEC({ supabase, user }) {
     }));
   };
 
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!user) {
-      console.error("User must be logged in to submit an application.");
-      setSubmissionStatus("error");
-      return;
+    let evidenceUrl = formData.evidence;
+
+    // Check if there is a file to upload
+    if (file) {
+      const fileExt = file.name.split(".").pop();
+      const fileName = `${Math.random()}.${fileExt}`;
+      const filePath = `evidence/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("evidence-bucket")
+        .upload(filePath, file);
+
+      if (uploadError) {
+        console.error("Error uploading file:", uploadError.message);
+        setSubmissionStatus("error");
+        return;
+      }
+
+      evidenceUrl = filePath;
     }
 
     const { data, error } = await supabase
@@ -36,7 +56,7 @@ function ApplyEC({ supabase, user }) {
           Student_ID: formData.Student_ID,
           title: formData.title,
           description: formData.description,
-          evidence: formData.evidence,
+          evidence: evidenceUrl,
           status: formData.status,
           user_id: user.id,
         },
@@ -48,6 +68,7 @@ function ApplyEC({ supabase, user }) {
     } else {
       console.log("Data inserted successfully:", data);
       setSubmissionStatus("success");
+      onECSubmit();
     }
 
     setFormData({
@@ -57,6 +78,10 @@ function ApplyEC({ supabase, user }) {
       evidence: "",
       status: "SUBMITTED",
     });
+    setFile(null);
+    if (document.getElementById("file-upload")) {
+      document.getElementById("file-upload").value = "";
+    }
   };
 
   return (
@@ -104,11 +129,15 @@ function ApplyEC({ supabase, user }) {
             name="evidence"
             value={formData.evidence}
             onChange={handleChange}
-            required
+            required={!file}
           />
         </label>
         <div className="button-wrapper">
-          <button>Upload files</button>
+          <label htmlFor="file-upload">
+            Upload File:{" "}
+            <input type="file" id="file-upload" onChange={handleFileChange} />
+          </label>
+
           <button type="submit">Submit</button>
         </div>
       </form>

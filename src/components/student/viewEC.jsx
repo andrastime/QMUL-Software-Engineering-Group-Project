@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./viewEC.css";
 import ApplyEC from "./applyEC";
 import ECdetails from "./ECdetails";
@@ -12,19 +12,35 @@ const ViewEC = ({ supabase, user }) => {
   const [showAllECs, setShowAllECs] = useState(true);
   const [showApplyEC, setShowApplyEC] = useState(false);
 
-  useEffect(() => {
-    async function getECs() {
-      const { data } = await supabase
-        .from("extenuating_circumstances")
-        .select();
+  const refreshECs = useCallback(async () => {
+    let query = supabase
+      .from("extenuating_circumstances")
+      .select()
+      .order("created_at", { ascending: false });
+
+    if (user) {
+      query = query.eq("user_id", user.id);
+    }
+
+    const { data, error } = await query;
+
+    if (error) {
+      console.error("Error fetching ECs:", error);
+    } else {
       setECs(data);
     }
-    getECs();
-  }, [supabase]);
+  }, [supabase, user]);
+
+  useEffect(() => {
+    refreshECs();
+  }, [refreshECs, user]);
 
   const handleTabClick = (tab) => {
     setShowApplyEC(false);
     setActiveTab(tab);
+    if (tab === "Extenuating Circumstances") {
+      refreshECs();
+    }
   };
 
   const handleTitleClick = (entry) => {
@@ -83,7 +99,7 @@ const ViewEC = ({ supabase, user }) => {
 
   const renderApplyEC = () => (
     <div>
-      <ApplyEC supabase={supabase} user={user} />
+      <ApplyEC supabase={supabase} user={user} onECSubmit={refreshECs} />
     </div>
   );
 
